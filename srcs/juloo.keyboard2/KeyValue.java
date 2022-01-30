@@ -145,8 +145,8 @@ class KeyValue
       addCharKey(chars.charAt(i), EVENT_NONE);
 
     addModifierKey("shift", "⇧", FLAG_LOCK | FLAG_SHIFT);
-    addModifierKey("ctrl", "Ctrl", FLAG_CTRL);
-    addModifierKey("alt", "Alt", FLAG_ALT);
+    addModifierKey("ctrl", "Ctrl", FLAG_LOCK | FLAG_CTRL);
+    addModifierKey("alt", "Alt", FLAG_LOCK | FLAG_ALT);
     addModifierKey("accent_aigu", "◌́", FLAG_ACCENT2);
     addModifierKey("accent_caron", "◌̌", FLAG_ACCENT_CARON);
     addModifierKey("accent_cedille", "◌̧", FLAG_ACCENT5);

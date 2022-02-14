@@ -34,6 +34,7 @@ class KeyValue
   public static final int FLAG_SHIFT = (1 << 11);
   public static final int FLAG_ALT = (1 << 12);
   public static final int FLAG_FN = (1 << 13);
+  public static final int FLAG_META = (1 << 14);
 
   // Accent flags
   public static final int FLAG_ACCENT1 = (1 << 16); // Grave
@@ -127,7 +128,12 @@ class KeyValue
 
   private static void addSpecialKey(String name, String symbol, int event)
   {
-    addKey(name, symbol, CHAR_NONE, event, FLAG_NOREPEAT);
+    addSpecialKey(name, symbol, event, 0);
+  }
+
+  private static void addSpecialKey(String name, String symbol, int event, int flags)
+  {
+    addKey(name, symbol, CHAR_NONE, event, flags | FLAG_NOREPEAT);
   }
 
   private static void addEventKey(String name, String symbol, int event)
@@ -146,7 +152,7 @@ class KeyValue
     for (int i = 0; i < chars.length(); i++)
       addCharKey(chars.charAt(i), EVENT_NONE);
 
-    addModifierKey("shift", "⇧", FLAG_LOCK | FLAG_SHIFT);
+    addModifierKey("shift", "\uE808", FLAG_LOCK | FLAG_SHIFT | FLAG_KEY_FONT);
     addModifierKey("ctrl", "Ctrl", FLAG_LOCK | FLAG_CTRL);
     addModifierKey("alt", "Alt", FLAG_LOCK | FLAG_ALT);
     addModifierKey("accent_aigu", "◌́", FLAG_ACCENT2);
@@ -161,6 +167,7 @@ class KeyValue
     addModifierKey("superscript", "◌͆", FLAG_ACCENT_SUPERSCRIPT);
     addModifierKey("subscript", "◌̺", FLAG_ACCENT_SUBSCRIPT);
     addModifierKey("fn", "Fn", FLAG_FN);
+    addModifierKey("meta", "◆", FLAG_META);
 
     addCharKey('a', KeyEvent.KEYCODE_A);
     addCharKey('b', KeyEvent.KEYCODE_B);
@@ -222,13 +229,14 @@ class KeyValue
     addSpecialKey("switch_numeric", "123+", EVENT_SWITCH_NUMERIC);
     addSpecialKey("switch_emoji", "☻", EVENT_SWITCH_EMOJI);
     addSpecialKey("switch_back_emoji", "ABC", EVENT_SWITCH_BACK_EMOJI);
-    addSpecialKey("change_method", "⊞", EVENT_CHANGE_METHOD);
+    addSpecialKey("change_method", "\ue807", EVENT_CHANGE_METHOD, FLAG_KEY_FONT);
     addSpecialKey("action", "Action", EVENT_ACTION); // Will always be replaced
     addSpecialKey("select_start", "SelStart", EVENT_SELECTION_START);
     addSpecialKey("select_end", "SelEnd", EVENT_SELECTION_END);
 
     addEventKey("esc", "Esc", KeyEvent.KEYCODE_ESCAPE);
-    addEventKey("enter", "\uE800", KeyEvent.KEYCODE_ENTER, FLAG_KEY_FONT);
+    // Enter should be '\u23CE' but using what is in the font file at the moment
+    addEventKey("enter", "\ue800", KeyEvent.KEYCODE_ENTER, FLAG_KEY_FONT);
     addEventKey("up", "\uE80B", KeyEvent.KEYCODE_DPAD_UP, FLAG_KEY_FONT | FLAG_PRECISE_REPEAT);
     addEventKey("right", "\uE80C", KeyEvent.KEYCODE_DPAD_RIGHT, FLAG_KEY_FONT | FLAG_PRECISE_REPEAT);
     addEventKey("down", "\uE809", KeyEvent.KEYCODE_DPAD_DOWN, FLAG_KEY_FONT | FLAG_PRECISE_REPEAT);
@@ -253,6 +261,6 @@ class KeyValue
     addEventKey("tab", "↹", KeyEvent.KEYCODE_TAB);
 
     addKey("\\t", "\\t", '\t', EVENT_NONE, 0); // Send the tab character
-    addKey("space", " ", ' ', KeyEvent.KEYCODE_SPACE, 0);
+    addKey("space", "\ue80d", ' ', KeyEvent.KEYCODE_SPACE, FLAG_KEY_FONT);
   }
 }

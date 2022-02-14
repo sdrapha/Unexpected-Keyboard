@@ -26,7 +26,7 @@ class KeyEventHandler implements Config.IKeyEventHandler
     case KeyValue.EVENT_SELECTION_START: _recv.getSelectionStart(); return;
     case KeyValue.EVENT_SELECTION_END: _recv.getSelectionEnd(); return;
     default:
-      if ((flags & (KeyValue.FLAG_CTRL | KeyValue.FLAG_ALT)) != 0)
+      if ((flags & (KeyValue.FLAG_CTRL | KeyValue.FLAG_ALT | KeyValue.FLAG_META)) != 0)
         handleMetaKeyUp(key, flags);
       else if (key.char_ != KeyValue.CHAR_NONE)
         _recv.commitChar(key.char_);
@@ -58,6 +58,8 @@ class KeyEventHandler implements Config.IKeyEventHandler
       meta |= KeyEvent.META_ALT_LEFT_ON | KeyEvent.META_ALT_ON;
     if ((flags & KeyValue.FLAG_SHIFT) != 0)
       meta |= KeyEvent.META_SHIFT_LEFT_ON | KeyEvent.META_SHIFT_ON;
+    if ((flags & KeyValue.FLAG_META) != 0)
+      meta |= KeyEvent.META_META_LEFT_ON | KeyEvent.META_META_ON;
     _recv.sendKeyEvent(key.eventCode, meta);
   }
 

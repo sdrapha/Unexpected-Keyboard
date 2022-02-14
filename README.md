@@ -1,5 +1,8 @@
 # Unexpected Keyboard
+###  - Personal fork for testing and adding personal preferences - 
+Awesome work on the original [upstream](https://github.com/Julow/Unexpected-Keyboard) repo
 
+-----
 A lightweight virtual keyboard for developers.
 
 ![Unexpected Keyboard](metadata/android/en-US/images/featureGraphic.png)

@@ -37,3 +37,16 @@ System > Languages & input > On-screen keyboard > Manage on-screen keyboards.
 
 For instructions on building the application, see
 [Contributing](CONTRIBUTING.md).
+
+## Screenshots
+
+<img src=metadata/android/en-US/images/featureGraphic.png
+alt="Unexpected Keyboard Image"
+style="width: 440px;
+       margin-left: 6px;
+       margin-right: 6px;">
+<img src=metadata/android/en-US/images/featureGraphic2.png
+alt="Unexpected Keyboard Image"
+style="width: 440px;
+       margin-left: 6px;
+       margin-right: 6px;">

@@ -48,11 +48,11 @@ For instructions on building the application, see
 
 <img src=metadata/android/en-US/images/featureGraphic.png
 alt="Unexpected Keyboard Image"
-style="width: 300px;
+style="width: 400px;
        margin-left: 6px;
        margin-right: 6px;">
 <img src=metadata/android/en-US/images/featureGraphic2.png
 alt="Unexpected Keyboard Image"
-style="width: 300px;
+style="width: 400px;
        margin-left: 6px;
        margin-right: 6px;">

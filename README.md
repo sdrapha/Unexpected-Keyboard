@@ -2,6 +2,12 @@
 ###  - Personal fork for testing and adding personal preferences - 
 Awesome work on the original [upstream](https://github.com/Julow/Unexpected-Keyboard) repo
 
+This fork currently has the following extra changes:
+- Move corners extrakeys away from phone's edge (good for bulky phone case)
+- Add a system to type ordinal indicators on the numeric keypad
+- Add Colon : to numeric keypad
+- Second click on CTRL or ALT locks their state ON
+
 -----
 A lightweight virtual keyboard for developers.
 

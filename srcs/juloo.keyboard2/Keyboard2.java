@@ -239,16 +239,6 @@ public class Keyboard2 extends InputMethodService
       setInputView(_keyboardView);
     }
 
-    public void getSelectionStart()
-    {
-      
-    }
-
-    public void getSelectionEnd()
-    {
-      
-    }
-
     public void performAction()
     {
       InputConnection conn = getCurrentInputConnection();

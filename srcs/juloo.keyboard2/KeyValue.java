@@ -14,8 +14,6 @@ class KeyValue
   public static final int EVENT_SWITCH_BACK_EMOJI = -6;
   public static final int EVENT_CHANGE_METHOD = -7;
   public static final int EVENT_ACTION = -8;
-  public static final int EVENT_SELECTION_START = -9;
-  public static final int EVENT_SELECTION_END = -10;
   public static final char CHAR_NONE = '\0';
 
   // Behavior flags
@@ -231,8 +229,6 @@ class KeyValue
     addSpecialKey("switch_back_emoji", "ABC", EVENT_SWITCH_BACK_EMOJI);
     addSpecialKey("change_method", "\ue807", EVENT_CHANGE_METHOD, FLAG_KEY_FONT);
     addSpecialKey("action", "Action", EVENT_ACTION); // Will always be replaced
-    addSpecialKey("select_start", "SelStart", EVENT_SELECTION_START);
-    addSpecialKey("select_end", "SelEnd", EVENT_SELECTION_END);
 
     addEventKey("esc", "Esc", KeyEvent.KEYCODE_ESCAPE);
     // Enter should be '\u23CE' but using what is in the font file at the moment

@@ -23,8 +23,6 @@ class KeyEventHandler implements Config.IKeyEventHandler
     case KeyValue.EVENT_SWITCH_BACK_EMOJI: _recv.setPane_normal(); return;
     case KeyValue.EVENT_CHANGE_METHOD: _recv.switchToNextInputMethod(); return;
     case KeyValue.EVENT_ACTION: _recv.performAction(); return;
-    case KeyValue.EVENT_SELECTION_START: _recv.getSelectionStart(); return;
-    case KeyValue.EVENT_SELECTION_END: _recv.getSelectionEnd(); return;
     default:
       if ((flags & (KeyValue.FLAG_CTRL | KeyValue.FLAG_ALT | KeyValue.FLAG_META)) != 0)
         handleMetaKeyUp(key, flags);
@@ -70,8 +68,6 @@ class KeyEventHandler implements Config.IKeyEventHandler
     public void setPane_normal();
     public void showKeyboardConfig();
     public void performAction();
-    public void getSelectionStart();
-    public void getSelectionEnd();
 
     /** 'res_id' is '-1' for the currently selected layout. */
     public void setLayout(int res_id);

@@ -17,7 +17,7 @@ class KeyValue
   public static final char CHAR_NONE = '\0';
 
   // Behavior flags
-  public static final int FLAG_KEEP_ON = 1;
+  public static final int FLAG_LATCH = 1;
   public static final int FLAG_LOCK = (1 << 1);
   public static final int FLAG_NOREPEAT = (1 << 2);
   public static final int FLAG_NOCHAR = (1 << 3);
@@ -56,8 +56,11 @@ class KeyValue
 
   // Language specific keys
   public static final int FLAG_LANG_SZLIG = (1 << 25);
+  public static final int FLAG_LANG_EURO = (1 << 29);
+  public static final int FLAG_LANG_POUND = (1 << 30);
 
-  public static final int FLAGS_LANGS = FLAG_LANG_SZLIG;
+  public static final int FLAGS_LANGS = FLAG_LANG_SZLIG | FLAG_LANG_EURO |
+    FLAG_LANG_POUND;
 
   public static final int FLAGS_NOT_HIDDEN_ACCENTS = FLAG_ACCENT_SUPERSCRIPT |
     FLAG_ACCENT_SUBSCRIPT | FLAG_ACCENT_ORDINAL;
@@ -123,7 +126,7 @@ class KeyValue
   private static void addModifierKey(String name, String symbol, int extra_flags)
   {
     addKey(name, symbol, CHAR_NONE, EVENT_NONE,
-        FLAG_KEEP_ON | FLAG_NOCHAR | FLAG_NOREPEAT | extra_flags);
+        FLAG_LATCH | FLAG_NOCHAR | FLAG_NOREPEAT | extra_flags);
   }
 
   private static void addSpecialKey(String name, String symbol, int event)
@@ -148,10 +151,6 @@ class KeyValue
 
   static
   {
-    String chars = "<>&\"_°~{|^}$*:!£%µ?.§€";
-    for (int i = 0; i < chars.length(); i++)
-      addCharKey(chars.charAt(i), EVENT_NONE);
-
     addModifierKey("shift", "\uE808", FLAG_LOCK | FLAG_SHIFT | FLAG_KEY_FONT);
     addModifierKey("ctrl", "Ctrl", FLAG_LOCK | FLAG_CTRL);
     addModifierKey("alt", "Alt", FLAG_LOCK | FLAG_ALT);
@@ -224,6 +223,8 @@ class KeyValue
     addCharKey('(', KeyEvent.KEYCODE_NUMPAD_LEFT_PAREN);
     addCharKey(')', KeyEvent.KEYCODE_NUMPAD_RIGHT_PAREN);
     addCharKey('ß', EVENT_NONE, FLAG_LANG_SZLIG);
+    addCharKey('€', EVENT_NONE, FLAG_LANG_EURO);
+    addCharKey('£', EVENT_NONE, FLAG_LANG_POUND);
 
     addSpecialKey("config", "⛭", EVENT_CONFIG);
     addSpecialKey("switch_text", "ABC", EVENT_SWITCH_TEXT);
@@ -244,8 +245,8 @@ class KeyValue
     addEventKey("page_down", "⇟", KeyEvent.KEYCODE_PAGE_DOWN);
     addEventKey("home", "↖", KeyEvent.KEYCODE_MOVE_HOME);
     addEventKey("end", "↗", KeyEvent.KEYCODE_MOVE_END);
-    addEventKey("backspace", "⌫", KeyEvent.KEYCODE_DEL, FLAG_PRECISE_REPEAT);
-    addEventKey("delete", "⌦", KeyEvent.KEYCODE_FORWARD_DEL, FLAG_PRECISE_REPEAT);
+    addEventKey("backspace", "⌫", KeyEvent.KEYCODE_DEL);
+    addEventKey("delete", "⌦", KeyEvent.KEYCODE_FORWARD_DEL);
     addEventKey("insert", "Ins", KeyEvent.KEYCODE_INSERT);
     addEventKey("f1", "F1", KeyEvent.KEYCODE_F1);
     addEventKey("f2", "F2", KeyEvent.KEYCODE_F2);

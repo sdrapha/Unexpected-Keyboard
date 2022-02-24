@@ -4,7 +4,8 @@ Awesome work on the original [upstream](https://github.com/Julow/Unexpected-Keyb
 
 This fork currently has the following extra changes:
 - Move corners extrakeys away from phone's edge (good for bulky phone case)
-- Second click on CTRL or ALT locks their state ON
+- Second click on CTRL or ALT locks their state ON (configurable in preferences)
+- Update unicode symbols to font-icons, so it renders consistently across different devices
 
 -----
 A lightweight virtual keyboard for developers.

@@ -51,6 +51,11 @@ alt="Unexpected Keyboard Image"
 style="width: 400px;
        margin-left: 6px;
        margin-right: 6px;">
+<img src=metadata/android/en-US/images/featureGraphic3.png
+alt="Unexpected Keyboard Image"
+style="width: 400px;
+       margin-left: 6px;
+       margin-right: 6px;">
 <img src=metadata/android/en-US/images/featureGraphic2.png
 alt="Unexpected Keyboard Image"
 style="width: 400px;

@@ -6,6 +6,7 @@ This fork currently has the following extra changes:
 - Move corners extrakeys away from phone's edge (good for bulky phone case)
 - Second click on CTRL or ALT locks their state ON (configurable in preferences)
 - Update unicode symbols to font-icons, so it renders consistently across different devices
+- Increase maximum size of char label setting, useful for big screen resolutions
 
 -----
 A lightweight virtual keyboard for developers.

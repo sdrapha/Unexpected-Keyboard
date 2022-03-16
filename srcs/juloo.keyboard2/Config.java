@@ -8,12 +8,18 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.KeyEvent;
+import java.util.Set;
+import java.util.HashSet;
 
 final class Config
 {
   // From resources
   public final float marginTop;
   public final float keyPadding;
+
+  public final float labelTextSize;
+  public final float sublabelTextSize;
 
   // From preferences
   public int layout; // Or '-1' for the system defaults
@@ -29,19 +35,17 @@ final class Config
   public float keyVerticalInterval;
   public float keyHorizontalInterval;
   public boolean preciseRepeat;
-  public boolean lockShift;
-  public boolean lockCtrl;
-  public boolean lockAlt;
+  public int lockable_modifiers;
   public float characterSize; // Ratio
   public int accents; // Values are R.values.pref_accents_v_*
   public int theme; // Values are R.style.*
 
   // Dynamically set
   public boolean shouldOfferSwitchingToNextInputMethod;
-  public int key_flags_to_remove;
   public String actionLabel; // Might be 'null'
   public int actionId; // Meaningful only when 'actionLabel' isn't 'null'
   public boolean swapEnterActionKey; // Swap the "enter" and "action" keys
+  public Set<String> extra_keys; // 'null' means all the keys
 
   public final IKeyEventHandler handler;
 
@@ -51,6 +55,8 @@ final class Config
     // static values
     marginTop = res.getDimension(R.dimen.margin_top);
     keyPadding = res.getDimension(R.dimen.key_padding);
+    labelTextSize = res.getFloat(R.integer.label_text_size);
+    sublabelTextSize = res.getFloat(R.integer.sublabel_text_size);
     // default values
     layout = -1;
     vibrateEnabled = true;
@@ -63,19 +69,16 @@ final class Config
     keyVerticalInterval = res.getDimension(R.dimen.key_vertical_interval);
     keyHorizontalInterval = res.getDimension(R.dimen.key_horizontal_interval);
     preciseRepeat = true;
-    lockShift = true;
-    lockCtrl = true;
-    lockAlt = true;
     characterSize = 1.f;
     accents = 1;
     // from prefs
     refresh(context);
     // initialized later
     shouldOfferSwitchingToNextInputMethod = false;
-    key_flags_to_remove = 0;
     actionLabel = null;
     actionId = 0;
     swapEnterActionKey = false;
+    extra_keys = null;
     handler = h;
   }
 
@@ -91,16 +94,13 @@ final class Config
     // is not the actual size of the keyboard, which will be bigger if the
     // layout has a fifth row. 
     int keyboardHeightPercent;
-    float extra_horizontal_margin;
     if (res.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) // Landscape mode
     {
       keyboardHeightPercent = 55;
-      extra_horizontal_margin = res.getDimension(R.dimen.landscape_extra_horizontal_margin);
     }
     else
     {
       keyboardHeightPercent = prefs.getInt("keyboard_height", 35);
-      extra_horizontal_margin = 0.f;
     }
     layout = layoutId_of_string(prefs.getString("layout", "system"));
     swipe_dist_dp = Float.valueOf(prefs.getString("swipe_dist", "15"));
@@ -115,14 +115,56 @@ final class Config
     // Do not substract keyVerticalInterval from keyHeight because this is done
     // during rendered.
     keyHeight = dm.heightPixels * keyboardHeightPercent / 100 / 4;
-    horizontalMargin = getDipPref(dm, prefs, "horizontal_margin", horizontalMargin) + extra_horizontal_margin;
+    horizontalMargin = getDipPref(dm, prefs, "horizontal_margin", horizontalMargin) + res.getDimension(R.dimen.extra_horizontal_margin);
     preciseRepeat = prefs.getBoolean("precise_repeat", preciseRepeat);
-    lockShift = prefs.getBoolean("lockable_shift", lockShift);
-    lockCtrl = prefs.getBoolean("lockable_ctrl", lockCtrl);
-    lockAlt = prefs.getBoolean("lockable_alt", lockAlt);
+    lockable_modifiers =
+      (prefs.getBoolean("lockable_shift", true) ? KeyValue.FLAG_SHIFT : 0)
+      | (prefs.getBoolean("lockable_ctrl", false) ? KeyValue.FLAG_CTRL : 0)
+      | (prefs.getBoolean("lockable_alt", false) ? KeyValue.FLAG_ALT : 0)
+      | (prefs.getBoolean("lockable_fn", false) ? KeyValue.FLAG_FN : 0)
+      | (prefs.getBoolean("lockable_meta", false) ? KeyValue.FLAG_META : 0)
+      | (prefs.getBoolean("lockable_sup", false) ? KeyValue.FLAG_ACCENT_SUPERSCRIPT : 0)
+      | (prefs.getBoolean("lockable_sub", false) ? KeyValue.FLAG_ACCENT_SUBSCRIPT : 0);
     characterSize = prefs.getFloat("character_size", characterSize);
     accents = Integer.valueOf(prefs.getString("accents", "1"));
     theme = getThemeId(res, prefs.getString("theme", ""));
+  }
+
+  /** Update the layout according to the configuration.
+   *  - Remove the switching key if it isn't needed
+   *  - Remove keys from other locales (not in 'extra_keys')
+   *  - Replace the action key to show the right label
+   *  - Swap the enter and action keys
+   */
+  public KeyboardData modify_layout(KeyboardData kw)
+  {
+    // Update the name to avoid caching in KeyModifier
+    KeyValue action_key = (actionLabel == null) ? null :
+      KeyValue.getKeyByName("action").withNameAndSymbol(actionLabel, actionLabel);
+    return kw.replaceKeys(key -> {
+      if (key == null)
+        return null;
+      switch (key.eventCode)
+      {
+        case KeyValue.EVENT_CHANGE_METHOD:
+          return shouldOfferSwitchingToNextInputMethod ? key : null;
+        case KeyEvent.KEYCODE_ENTER:
+          return (swapEnterActionKey && action_key != null) ? action_key : key;
+        case KeyValue.EVENT_ACTION:
+          return (swapEnterActionKey && action_key != null) ?
+            KeyValue.getKeyByName("enter") : action_key;
+        default:
+          if (key.flags != 0)
+          {
+            if ((key.flags & KeyValue.FLAG_LOCALIZED) != 0 &&
+                extra_keys != null &&
+                !extra_keys.contains(key.name))
+              return null;
+            if ((key.flags & lockable_modifiers) != 0)
+              return key.withFlags(key.flags | KeyValue.FLAG_LOCK);
+          }
+          return key;
+      }});
   }
 
   private float getDipPref(DisplayMetrics dm, SharedPreferences prefs, String pref_name, float def)
@@ -167,27 +209,6 @@ final class Config
       case "bgph1": return R.xml.local_bgph1;
       case "dvorak": return R.xml.dvorak;
       case "system": default: return -1;
-    }
-  }
-
-  /* Used for the accents option. */
-  public static int extra_key_flag_of_name(String name)
-  {
-    switch (name)
-    {
-      case "aigu": return KeyValue.FLAG_ACCENT2;
-      case "caron": return KeyValue.FLAG_ACCENT_CARON;
-      case "cedille": return KeyValue.FLAG_ACCENT5;
-      case "circonflexe": return KeyValue.FLAG_ACCENT3;
-      case "grave": return KeyValue.FLAG_ACCENT1;
-      case "macron": return KeyValue.FLAG_ACCENT_MACRON;
-      case "ring": return KeyValue.FLAG_ACCENT_RING;
-      case "szlig": return KeyValue.FLAG_LANG_SZLIG;
-      case "euro": return KeyValue.FLAG_LANG_EURO;
-      case "pound": return KeyValue.FLAG_LANG_POUND;
-      case "tilde": return KeyValue.FLAG_ACCENT4;
-      case "trema": return KeyValue.FLAG_ACCENT6;
-      default: throw new RuntimeException(name);
     }
   }
 

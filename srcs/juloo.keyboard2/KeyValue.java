@@ -22,7 +22,10 @@ class KeyValue
   public static final int FLAG_NOREPEAT = (1 << 2);
   public static final int FLAG_NOCHAR = (1 << 3);
   public static final int FLAG_PRECISE_REPEAT = (1 << 4);
+
+  // Rendering flags
   public static final int FLAG_KEY_FONT = (1 << 5);
+  public static final int FLAG_SMALLER_FONT = (1 << 6);
 
   // Internal flags
   public static final int FLAG_LOCKED = (1 << 8);
@@ -48,25 +51,13 @@ class KeyValue
   public static final int FLAG_ACCENT_MACRON = (1 << 27);
   public static final int FLAG_ACCENT_ORDINAL = (1 << 28);
 
-
   public static final int FLAGS_ACCENTS = FLAG_ACCENT1 | FLAG_ACCENT2 |
     FLAG_ACCENT3 | FLAG_ACCENT4 | FLAG_ACCENT5 | FLAG_ACCENT6 |
     FLAG_ACCENT_CARON | FLAG_ACCENT_MACRON | FLAG_ACCENT_SUPERSCRIPT |
     FLAG_ACCENT_SUBSCRIPT | FLAG_ACCENT_ORDINAL | FLAG_ACCENT_RING;
 
-  // Language specific keys
-  public static final int FLAG_LANG_SZLIG = (1 << 25);
-  public static final int FLAG_LANG_EURO = (1 << 29);
-  public static final int FLAG_LANG_POUND = (1 << 30);
-
-  public static final int FLAGS_LANGS = FLAG_LANG_SZLIG | FLAG_LANG_EURO |
-    FLAG_LANG_POUND;
-
-  public static final int FLAGS_NOT_HIDDEN_ACCENTS = FLAG_ACCENT_SUPERSCRIPT |
-    FLAG_ACCENT_SUBSCRIPT | FLAG_ACCENT_ORDINAL;
-  // Keys that have to be enabled per language
-  public static final int FLAGS_HIDDEN_KEYS =
-    (FLAGS_ACCENTS & ~FLAGS_NOT_HIDDEN_ACCENTS) | FLAGS_LANGS;
+  // Language specific keys that are removed from the keyboard by default
+  public static final int FLAG_LOCALIZED = (1 << 25);
 
   public final String name;
   public final String symbol;
@@ -83,6 +74,16 @@ class KeyValue
   public KeyValue withCharAndSymbol(String s, char c)
   {
     return new KeyValue(name, s, c, eventCode, flags);
+  }
+
+  public KeyValue withNameAndSymbol(String n, String s)
+  {
+    return new KeyValue(n, s, char_, eventCode, flags);
+  }
+
+  public KeyValue withFlags(int f)
+  {
+    return new KeyValue(name, symbol, char_, eventCode, f);
   }
 
   private static HashMap<String, KeyValue> keys = new HashMap<String, KeyValue>();
@@ -151,22 +152,23 @@ class KeyValue
 
   static
   {
-    addModifierKey("shift", "\uE808", FLAG_LOCK | FLAG_SHIFT | FLAG_KEY_FONT);
-    addModifierKey("ctrl", "Ctrl", FLAG_LOCK | FLAG_CTRL);
-    addModifierKey("alt", "Alt", FLAG_LOCK | FLAG_ALT);
-    addModifierKey("accent_aigu", "◌́", FLAG_ACCENT2);
-    addModifierKey("accent_caron", "◌̌", FLAG_ACCENT_CARON);
-    addModifierKey("accent_cedille", "◌̧", FLAG_ACCENT5);
-    addModifierKey("accent_circonflexe", "◌̂", FLAG_ACCENT3);
-    addModifierKey("accent_grave", "◌̀", FLAG_ACCENT1);
-    addModifierKey("accent_macron", "◌̄", FLAG_ACCENT_MACRON);
-    addModifierKey("accent_tilde", "◌̃", FLAG_ACCENT4);
-    addModifierKey("accent_trema", "◌̈", FLAG_ACCENT6);
-    addModifierKey("accent_ring", "◌̊", FLAG_ACCENT_RING);
-    addModifierKey("superscript", "◌͆", FLAG_ACCENT_SUPERSCRIPT);
-    addModifierKey("subscript", "◌̺", FLAG_ACCENT_SUBSCRIPT);
-    addModifierKey("ordinal", "ºʳᵈ", FLAG_ACCENT_ORDINAL);
-    addModifierKey("fn", "Fn", FLAG_FN);
+    addModifierKey("shift", "\uE808",
+        FLAG_SHIFT | FLAG_KEY_FONT | FLAG_SMALLER_FONT);
+    addModifierKey("ctrl", "Ctrl", FLAG_CTRL | FLAG_SMALLER_FONT);
+    addModifierKey("alt", "Alt", FLAG_ALT | FLAG_SMALLER_FONT);
+    addModifierKey("accent_aigu", "◌́", FLAG_ACCENT2 | FLAG_LOCALIZED);
+    addModifierKey("accent_caron", "◌̌", FLAG_ACCENT_CARON | FLAG_LOCALIZED);
+    addModifierKey("accent_cedille", "◌̧", FLAG_ACCENT5 | FLAG_LOCALIZED);
+    addModifierKey("accent_circonflexe", "◌̂", FLAG_ACCENT3 | FLAG_LOCALIZED);
+    addModifierKey("accent_grave", "◌̀", FLAG_ACCENT1 | FLAG_LOCALIZED);
+    addModifierKey("accent_macron", "◌̄", FLAG_ACCENT_MACRON | FLAG_LOCALIZED);
+    addModifierKey("accent_tilde", "◌̃", FLAG_ACCENT4 | FLAG_LOCALIZED);
+    addModifierKey("accent_trema", "◌̈", FLAG_ACCENT6 | FLAG_LOCALIZED);
+    addModifierKey("accent_ring", "◌̊", FLAG_ACCENT_RING | FLAG_LOCALIZED);
+    addModifierKey("superscript", "Sup", FLAG_ACCENT_SUPERSCRIPT | FLAG_SMALLER_FONT);
+    addModifierKey("subscript", "Sub", FLAG_ACCENT_SUBSCRIPT | FLAG_SMALLER_FONT);
+    addModifierKey("ordinal", "Ord", FLAG_ACCENT_ORDINAL | FLAG_SMALLER_FONT);
+    addModifierKey("fn", "Fn", FLAG_FN | FLAG_SMALLER_FONT);
     addModifierKey("meta", "◆", FLAG_META);
 
     addCharKey('a', KeyEvent.KEYCODE_A);
@@ -222,19 +224,19 @@ class KeyValue
     addCharKey('#', KeyEvent.KEYCODE_POUND);
     addCharKey('(', KeyEvent.KEYCODE_NUMPAD_LEFT_PAREN);
     addCharKey(')', KeyEvent.KEYCODE_NUMPAD_RIGHT_PAREN);
-    addCharKey('ß', EVENT_NONE, FLAG_LANG_SZLIG);
-    addCharKey('€', EVENT_NONE, FLAG_LANG_EURO);
-    addCharKey('£', EVENT_NONE, FLAG_LANG_POUND);
+    addCharKey('ß', EVENT_NONE, FLAG_LOCALIZED);
+    addCharKey('€', EVENT_NONE, FLAG_LOCALIZED);
+    addCharKey('£', EVENT_NONE, FLAG_LOCALIZED);
 
-    addSpecialKey("config", "\uE806", EVENT_CONFIG, FLAG_KEY_FONT);
+    addSpecialKey("config", "\uE806", EVENT_CONFIG, FLAG_KEY_FONT | FLAG_SMALLER_FONT);
     addSpecialKey("switch_text", "ABC", EVENT_SWITCH_TEXT);
     addSpecialKey("switch_numeric", "123+", EVENT_SWITCH_NUMERIC);
-    addSpecialKey("switch_emoji", "\uE812" , EVENT_SWITCH_EMOJI, FLAG_KEY_FONT);
+    addSpecialKey("switch_emoji", "\uE812" , EVENT_SWITCH_EMOJI, FLAG_KEY_FONT | FLAG_SMALLER_FONT);
     addSpecialKey("switch_back_emoji", "ABC", EVENT_SWITCH_BACK_EMOJI);
-    addSpecialKey("change_method", "\ue807", EVENT_CHANGE_METHOD, FLAG_KEY_FONT);
-    addSpecialKey("action", "Action", EVENT_ACTION); // Will always be replaced
+    addSpecialKey("change_method", "\ue807", EVENT_CHANGE_METHOD, FLAG_KEY_FONT | FLAG_SMALLER_FONT);
+    addSpecialKey("action", "Action", EVENT_ACTION, FLAG_SMALLER_FONT); // Will always be replaced
 
-    addEventKey("esc", "Esc", KeyEvent.KEYCODE_ESCAPE);
+    addEventKey("esc", "Esc", KeyEvent.KEYCODE_ESCAPE, FLAG_SMALLER_FONT);
     addEventKey("enter", "\ue800", KeyEvent.KEYCODE_ENTER, FLAG_KEY_FONT);
     addEventKey("up", "\uE80B", KeyEvent.KEYCODE_DPAD_UP, FLAG_KEY_FONT | FLAG_PRECISE_REPEAT);
     addEventKey("right", "\uE80C", KeyEvent.KEYCODE_DPAD_RIGHT, FLAG_KEY_FONT | FLAG_PRECISE_REPEAT);
@@ -244,9 +246,9 @@ class KeyValue
     addEventKey("page_down", "\uE811", KeyEvent.KEYCODE_PAGE_DOWN, FLAG_KEY_FONT);
     addEventKey("home", "\uE80E", KeyEvent.KEYCODE_MOVE_HOME, FLAG_KEY_FONT);
     addEventKey("end", "\uE80F", KeyEvent.KEYCODE_MOVE_END, FLAG_KEY_FONT);
-    addEventKey("backspace", "⌫", KeyEvent.KEYCODE_DEL);
-    addEventKey("delete", "⌦", KeyEvent.KEYCODE_FORWARD_DEL);
-    addEventKey("insert", "Ins", KeyEvent.KEYCODE_INSERT);
+    addEventKey("backspace", "⌫", KeyEvent.KEYCODE_DEL, FLAG_SMALLER_FONT);
+    addEventKey("delete", "⌦", KeyEvent.KEYCODE_FORWARD_DEL, FLAG_SMALLER_FONT);
+    addEventKey("insert", "Ins", KeyEvent.KEYCODE_INSERT, FLAG_SMALLER_FONT);
     addEventKey("f1", "F1", KeyEvent.KEYCODE_F1);
     addEventKey("f2", "F2", KeyEvent.KEYCODE_F2);
     addEventKey("f3", "F3", KeyEvent.KEYCODE_F3);
@@ -260,6 +262,6 @@ class KeyValue
     addEventKey("tab", "↹", KeyEvent.KEYCODE_TAB);
 
     addKey("\\t", "\\t", '\t', EVENT_NONE, 0); // Send the tab character
-    addKey("space", "\ue80d", ' ', KeyEvent.KEYCODE_SPACE, FLAG_KEY_FONT);
+    addKey("space", "\ue80d", ' ', KeyEvent.KEYCODE_SPACE, FLAG_KEY_FONT | FLAG_SMALLER_FONT);
   }
 }

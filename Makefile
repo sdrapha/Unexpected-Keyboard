@@ -12,17 +12,28 @@ EXTRA_JARS =
 
 # /
 
+
+.PHONY: all release debug fork_debug installd installdfork clean
+
+all: debug fork_debug
+
 debug: _build/$(PACKAGE_NAME).debug.apk
+
+fork_debug: _build/$(PACKAGE_NAME)_fork.debug.apk
+
 release: _build/$(PACKAGE_NAME).apk
 
 installd: _build/$(PACKAGE_NAME).debug.apk
+	adb install "$<"
+
+installdfork: _build/$(PACKAGE_NAME)_fork.debug.apk
 	adb install "$<"
 
 clean:
 	rm -rf _build/*.dex _build/class _build/gen _build/*.apk _build/*.unsigned-apk \
 		_build/*.idsig
 
-.PHONY: release debug installd clean
+# /-----------------------------------------------
 
 $(shell mkdir -p _build)
 
@@ -46,7 +57,7 @@ MANIFEST_FILE = AndroidManifest.xml
 JAVA_FILES = $(shell find $(SRC_DIR) -name '*.java')
 RES_FILES = $(shell find $(RES_DIR) -type f)
 
-# Debug signing
+# Debug keystore setup ---------------------------------------------------------------------------------
 
 DEBUG_KEYSTORE = _build/debug.keystore
 DEBUG_PASSWD = debug0
@@ -56,15 +67,14 @@ $(DEBUG_KEYSTORE):
 		-alias debug -keypass $(DEBUG_PASSWD) -keystore "$@" \
 		-keyalg rsa -storepass $(DEBUG_PASSWD) -validity 10000
 
+# Debug apk signing --------------------------------------------------------------------------------------
+
 _build/%.debug.apk: _build/%.debug.unsigned-apk $(DEBUG_KEYSTORE)
 	$(ANDROID_BUILD_TOOLS)/apksigner sign --in "$<" --out "$@" \
 		--ks $(DEBUG_KEYSTORE) --ks-key-alias debug --ks-pass "pass:$(DEBUG_PASSWD)"
 
-# Debug apk
 
-_build/$(PACKAGE_NAME).debug.unsigned-apk: AAPT_PACKAGE_FLAGS+=--rename-manifest-package $(PACKAGE_NAME).debug --product debug
-
-# Release signing
+# Release apk signing -------------------------------------------------------------------------------------
 
 # %-keystore.conf should declare KEYSTORE, KEYNAME and KEYSTOREPASS
 #  it is interpreted as a shell script
@@ -73,10 +83,22 @@ _build/%.apk: _build/%.unsigned-apk %-keystore.conf
 	$(ANDROID_BUILD_TOOLS)/apksigner sign --in "$<" --out "$@" \
 		--ks "$$KEYSTORE" --ks-key-alias "$$KEYNAME" --ks-pass "pass:$$KEYSTOREPASS"
 
-# Package
 
+
+# Base Package Builders -----------------------------------------------------------------------------------
+
+# Fork-Debug unsigned apk builder (add AAPT flags to existing wildcard rule)
+_build/$(PACKAGE_NAME)_fork.debug.unsigned-apk: AAPT_PACKAGE_FLAGS+=--rename-manifest-package $(PACKAGE_NAME)_fork.debug --product fork_debug
+
+# Debug unsigned apk builder (add AAPT flags to existing wildcard rule)
+_build/$(PACKAGE_NAME).debug.unsigned-apk: AAPT_PACKAGE_FLAGS+=--rename-manifest-package $(PACKAGE_NAME).debug --product debug
+
+# Aligned Unsigned apk builder (wildcard rule)
 _build/%.unsigned-apk: _build/%.unaligned-apk
 	$(ANDROID_BUILD_TOOLS)/zipalign -fp 4 "$<" "$@"
+
+
+# Unaligned apk builder
 
 APK_EXTRA_FILES = classes.dex assets/special_font.ttf
 
@@ -84,6 +106,7 @@ _build/%.unaligned-apk: $(addprefix _build/,$(APK_EXTRA_FILES)) $(MANIFEST_FILE)
 	$(ANDROID_BUILD_TOOLS)/aapt package -f -M $(MANIFEST_FILE) -S $(RES_DIR) \
 		-I $(ANDROID_PLATFORM)/android.jar -F "$@" $(AAPT_PACKAGE_FLAGS)
 	cd $(@D) && $(ANDROID_BUILD_TOOLS)/aapt add $(@F) $(APK_EXTRA_FILES)
+
 
 # R.java
 
@@ -95,6 +118,7 @@ $(R_FILE): $(RES_FILES) $(MANIFEST_FILE)
 	$(ANDROID_BUILD_TOOLS)/aapt package -f -m -S $(RES_DIR) -J $(GEN_DIR) \
 		-M $(MANIFEST_FILE) -I $(ANDROID_PLATFORM)/android.jar
 
+
 # Special font
 
 SPECIAL_FONT_BASE_FONT = srcs/special_font/base_font.ttf
@@ -104,6 +128,7 @@ SPECIAL_FONT_SCRIPT = srcs/special_font/build.pe
 _build/assets/special_font.ttf: $(SPECIAL_FONT_SCRIPT) $(SPECIAL_FONT_BASE_FONT) $(SPECIAL_FONT_GLYPHS)
 	mkdir -p $(@D)
 	fontforge -lang=ff -script $(SPECIAL_FONT_SCRIPT) $@ $(SPECIAL_FONT_BASE_FONT) $(SPECIAL_FONT_GLYPHS)
+
 
 # Compile java classes and build classes.dex
 

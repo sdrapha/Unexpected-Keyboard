@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <string name="app_name" product="fork_debug">Unexpected Keyboard (fork_debug)</string>
   <string name="app_name" product="debug">Unexpected Keyboard (debug)</string>
   <string name="app_name" product="default">Unexpected Keyboard</string>
   <string name="settings_activity_label">Unexpected Keyboard Settings</string>

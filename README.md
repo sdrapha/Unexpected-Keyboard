@@ -1,14 +1,18 @@
 # Unexpected Keyboard
-###  - Personal fork for testing and adding personal preferences - 
-Awesome work on the original [upstream](https://github.com/Julow/Unexpected-Keyboard) repo
+###  - Personal fork for testing and adding personal preferences -  Readme.md Updated 2022-03-24
+Awesome work on the original [upstream](https://github.com/Julow/Unexpected-Keyboard) repo ❤
 
 This fork currently has the following extra changes:
-- Move corners extrakeys away from phone's edge (good for bulky phone case)
-- Second click on CTRL or ALT locks their state ON (configurable in preferences)
-- Update unicode symbols to font-icons, so it renders consistently across different devices
-- Increase maximum size of char label setting, useful for big screen resolutions
+- Add QWERTY2 Layout, this layout is an alternative to the original QWERTY, it is a programming layout, (not a localization), the main goal on this layout was first to move the corners extrakeys away from phone's edge (good for bulky phone case), after that some other keys rearrangements were also done to improve the layout overall
+- ~~Second click on CTRL or ALT locks their state ON (configurable in preferences)~~ The upstream has this feature now
+- ~~Update unicode symbols to font-icons, so it renders consistently across different devices~~ The upstream has this feature now
+- ~~Increase maximum size of char label setting, useful for big screen resolutions~~ The upstream fixed the root cause, and this commit was reverted in this branch
+- The QUERTY2 layout has adjusted key proportions on the bottom row, giving more importance to the navigation arrows key
+- To implement the QUERTY2 Layout, there is some added logic that enable each individual layout to be paired with a specif numeric layout, so it's possible to have different numeric layouts.
+- Added an Extra variant APK builder to the makefile, called fork-debug, this extra apk has a different namespace, so it can be installed in parallel to the oficial APK, very useful for testing, or for building from source a modified version with personal preferences, and still be able to load the official APK at same time.
 
 -----
+## Unexpected Keyboard
 A lightweight virtual keyboard for developers.
 
 ![Unexpected Keyboard](metadata/android/en-US/images/featureGraphic.png)

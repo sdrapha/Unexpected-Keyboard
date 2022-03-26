@@ -9,26 +9,48 @@ jobs:
   Build-Apk:
     runs-on: ubuntu-latest
     steps:
-    - name: Install nix
-      uses: cachix/install-nix-action@v15
+    - name: Cache fontforge and extra dependencies
+      id: cache_localbin
+      uses: actions/cache@v2
       with:
-        nix_path: nixpkgs=channel:nixos-unstable
-    - uses: cachix/cachix-action@v10
+        path: /usr/local/bin
+        key: usr-local-bin
+    - name: Install latest FontForge version (using AppImage)
+      if: steps.cache_localbin.outputs.cache-hit != 'true'
+      run: |
+        # Get most recent version of FontForge
+        # Using AppImage there is no dependecy problem, it is the latest version and it's easier to cache
+        # -------
+        cd /usr/local/bin
+        sudo wget -c -N https://github.com/fontforge/fontforge/releases/download/20220308/FontForge-2022-03-08-582bd41-x86_64.AppImage
+        sudo chmod +x ./FontForge-2022-03-08-582bd41-x86_64.AppImage
+        sudo ln --symbolic --force /usr/local/bin/FontForge-2022-03-08-582bd41-x86_64.AppImage /usr/local/bin/fontforge
+    - uses: actions/setup-java@v2
       with:
-        name: julow
-        signingKey: '${{ secrets.CACHIX_SIGNING_KEY }}'
-    - name: Checkout Repo
+        distribution: 'zulu' # See 'Supported distributions' for available options
+        java-version: '11'
+    - name: Checkout repo
       uses: actions/checkout@v2
     - name: Cache debug certificate
       uses: actions/cache@v2
       with:
         path: _build/debug.keystore
         key: debug-keystore
-    - name: Run nix-shell and Make
-      uses: ZenithalHourlyRate/nix-shell-action@v4
-      with:
-        file: shell.nix
-        script: make
+    - name: Restore debug keystore from github Secrets 
+      run: |
+        mkdir -p _build
+        cd "$GITHUB_WORKSPACE/_build"
+        # Check if exist and use the secret named DEBUG_KEYSTORE
+        # The contents of the secret can be obtained -
+        #    from the debug.keystore.asc from you local _build folder
+        if [[ ! "${{ secrets.DEBUG_KEYSTORE }}" == "" ]]; then
+            echo "${{ secrets.DEBUG_KEYSTORE }}" > "debug.keystore.asc"
+            if [[ -s "debug.keystore.asc" ]]; then
+                gpg -d --passphrase "debug0" --batch "debug.keystore.asc" > "debug.keystore"
+            fi
+        fi
+    - name: Build
+      run: make
     - name: Save debug apk
       uses: actions/upload-artifact@v2
       with:

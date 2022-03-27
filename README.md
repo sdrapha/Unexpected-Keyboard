@@ -3,16 +3,19 @@
 Awesome work on the original [upstream](https://github.com/Julow/Unexpected-Keyboard) repo ❤
 
 This fork currently has the following extra changes:
+
 - Add QWERTY2 Layout, this layout is an alternative to the original QWERTY, it is a programming layout, (not a localization), the main goal on this layout was first to move the corners extrakeys away from phone's edge (good for bulky phone case), after that some other keys rearrangements were also done to improve the layout overall
 - The QUERTY2 layout has adjusted key proportions on the bottom row, giving more importance to the navigation arrows key
 - To implement the QUERTY2 Layout, there is some added logic that enable each individual layout to be paired with a specif numeric layout, so it's possible to have different numeric layouts.
-- Added an Extra variant APK builder to the makefile, called fork-debug, this extra apk has a different namespace, so it can be installed in parallel to the oficial APK, very useful for testing, or for building from source a modified version with personal preferences, and still be able to load the official APK at same time.
-- Add the capability for the Github CI action to utilize the `DEBUG_KEYSTORE` secret, check the contribution.ms for intructions.
+- Added an Extra variant APK builder to the makefile, called fork-debug, this extra apk has a different namespace, so it can be installed in parallel to the official APK, very useful for testing, or for building from source a modified version with personal preferences, and still be able to load the official APK at same time.
+- Add the capability for the Github CI action to utilize the `DEBUG_KEYSTORE` secret, check the [Contributing](CONTRIBUTING.md) for instructions.
 - Add QWERTY3 - QWERTY9 layout variations, Using them for testing different key locations
 
-**Who is reading this, please check out QWERTY6 layout, so far, that is the best candidate. Any feedback or idea is appreciated!**
+**Who is reading this, please check out QWERTY7 layout, so far, that is the best candidate. Any feedback or idea is appreciated!**
 
-ps. from qwerty2 to 6, there are variations, 7-8 are not utilized right now and there is nothing to test on them.
+(QWERTY7 Screenshots at end of this page)
+
+Ps. from qwerty2 to 7, there are variations, 8-9 are not utilized right now and there is nothing to test on them.
 
 -----
 ## Unexpected Keyboard
@@ -53,17 +56,25 @@ For instructions on building the application, see
 
 ## Screenshots
 
-<img src=metadata/android/en-US/images/featureGraphic.png
+QWERTY7 Layout:
+
+<img src=screenshots/qwerty7.jpg
 alt="Unexpected Keyboard Image"
 style="width: 400px;
        margin-left: 6px;
        margin-right: 6px;">
-<img src=metadata/android/en-US/images/featureGraphic3.png
+<img src=screenshots/numeric.jpg
 alt="Unexpected Keyboard Image"
 style="width: 400px;
        margin-left: 6px;
        margin-right: 6px;">
-<img src=metadata/android/en-US/images/featureGraphic2.png
+
+<img src=screenshots/qwerty7_fn.jpg
+alt="Unexpected Keyboard Image"
+style="width: 400px;
+       margin-left: 6px;
+       margin-right: 6px;">
+<img src=screenshots/numeric_fn.jpg
 alt="Unexpected Keyboard Image"
 style="width: 400px;
        margin-left: 6px;

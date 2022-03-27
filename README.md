@@ -1,15 +1,18 @@
 # Unexpected Keyboard
-###  - Personal fork for testing and adding personal preferences -  Readme.md Updated 2022-03-24
+###  - Personal fork for testing and adding personal preferences -  Readme.md Updated 2022-03-26
 Awesome work on the original [upstream](https://github.com/Julow/Unexpected-Keyboard) repo ❤
 
 This fork currently has the following extra changes:
 - Add QWERTY2 Layout, this layout is an alternative to the original QWERTY, it is a programming layout, (not a localization), the main goal on this layout was first to move the corners extrakeys away from phone's edge (good for bulky phone case), after that some other keys rearrangements were also done to improve the layout overall
-- ~~Second click on CTRL or ALT locks their state ON (configurable in preferences)~~ The upstream has this feature now
-- ~~Update unicode symbols to font-icons, so it renders consistently across different devices~~ The upstream has this feature now
-- ~~Increase maximum size of char label setting, useful for big screen resolutions~~ The upstream fixed the root cause, and this commit was reverted in this branch
 - The QUERTY2 layout has adjusted key proportions on the bottom row, giving more importance to the navigation arrows key
 - To implement the QUERTY2 Layout, there is some added logic that enable each individual layout to be paired with a specif numeric layout, so it's possible to have different numeric layouts.
 - Added an Extra variant APK builder to the makefile, called fork-debug, this extra apk has a different namespace, so it can be installed in parallel to the oficial APK, very useful for testing, or for building from source a modified version with personal preferences, and still be able to load the official APK at same time.
+- Add the capability for the Github CI action to utilize the `DEBUG_KEYSTORE` secret, check the contribution.ms for intructions.
+- Add QWERTY3 - QWERTY9 layout variations, Using them for testing different key locations
+
+**Who is reading this, please check out QWERTY6 layout, so far, that is the best candidate. Any feedback or idea is appreciated!**
+
+ps. from qwerty2 to 6, there are variations, 7-8 are not utilized right now and there is nothing to test on them.
 
 -----
 ## Unexpected Keyboard

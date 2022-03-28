@@ -3,7 +3,7 @@
   <row>
     <key width="0.75" key0="(" key2="[" key4="{"/>
     <key width="0.75" key0=")" key2="]" key4="}"/>
-    <key key0="7" key3="&lt;" key4="&gt;"/>
+    <key key0="7" key1="&quot;" key2="'" key3="&lt;" key4="&gt;"/>
     <key key0="8" key2="∞"/>
     <key key0="9" key2="π"/>
     <key width="0.75" key0="*" key1="√" key2="×"/>
@@ -12,7 +12,7 @@
   <row>
     <key width="0.75" key0="esc" key2="~" key4="!"/>
     <key width="0.75" key0="tab" key2="|" key4="\\"/>
-    <key key0="4" key4="a"/>
+    <key key0="4" key1="box" key3="arrows" key4="a"/>
     <key key0="5" key1="up" key2="right" key3="left" key4="down" edgekeys="true"/>
     <key key0="6"/>
     <key width="0.75" key0="+" key1="Σ" key2="$" key3="±"/>
@@ -24,8 +24,7 @@
     <key key0="1" key1="superscript" key2="ordinal" key3="subscript" key4="x"/>
     <key key0="2" key2="f11_placeholder" key4="c"/>
     <key key0="3" key2="f12_placeholder" key4="v"/>
-    <key width="0.75" key0="space" key1="&quot;" key2="'"/>
-    <key width="0.75" key0="backspace" key3="delete"/>
+    <key width="1.5" key0="backspace" key3="delete"/>
   </row>
   <row height="0.95">
     <key width="1.5" key0="ctrl" key2="meta" key4="alt"/>

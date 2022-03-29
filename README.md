@@ -15,7 +15,7 @@ This fork currently has the following extra changes:
 
 (QWERTY2 layout screenshots at end of this page)
 
-Debug APKs on the actions tab [link](https://github.com/sdrapha/Unexpected-Keyboard/actions?=query=branch%3Aall-branches-merged-in-one)
+Debug APKs on the actions tab [link](https://github.com/sdrapha/Unexpected-Keyboard/actions?query=branch%3Aall-branches-merged-in-one)
 
 -----
 ## Unexpected Keyboard

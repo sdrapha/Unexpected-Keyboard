@@ -32,6 +32,6 @@
     <key key0="b" key2="\?" key3="/"/>
     <key key0="n" key1="accent_tilde" key2=":" key3=";"/>
     <key key0="m" key2="&quot;" key3="'"/>
-    <key width="1.5" key0="backspace" key1="delete"/>
+    <key width="1.5" key0="backspace" key3="delete"/>
   </row>
 </keyboard>

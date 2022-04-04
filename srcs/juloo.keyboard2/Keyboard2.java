@@ -149,6 +149,9 @@ public class Keyboard2 extends InputMethodService
       refreshSubtypeLayout(subtype);
       refreshAccentsOption(imm, subtype);
     }
+    _config.shouldOfferSwitchingToProgramming =
+      _config.programming_layout != -1 &&
+      _currentTextLayout != _config.programming_layout;
   }
 
   private String actionLabel_of_imeAction(int action)
@@ -286,18 +289,27 @@ public class Keyboard2 extends InputMethodService
       conn.performEditorAction(_config.actionId);
     }
 
-    public void setLayout(int res_id)
+    public void switchMain()
     {
-      if (res_id == -1)
-        res_id = _currentTextLayout;
-      _keyboardView.setKeyboard(getLayout(res_id));
+      _keyboardView.setKeyboard(getLayout(_currentTextLayout));
     }
 
-    public void setNumLayout(int res_id)
+    public void switchNumeric()
     {
-      if (res_id == -1)
-        res_id = _currentNumLayout;
-      _keyboardView.setKeyboard(getLayout(res_id));
+      _keyboardView.setKeyboard(getLayout(_currentNumLayout));
+    }
+
+    public void switchProgramming()
+    {
+      if (_config.programming_layout == -1)
+        return;
+      KeyboardData layout =
+        getLayout(_config.programming_layout).replaceKeys(key -> {
+          if (key != null && key.eventCode == KeyValue.EVENT_SWITCH_PROGRAMMING)
+            return KeyValue.getKeyByName("switch_text");
+          return key;
+        });
+      _keyboardView.setKeyboard(layout);
     }
 
     public void sendKeyEvent(int eventAction, int eventCode, int meta)

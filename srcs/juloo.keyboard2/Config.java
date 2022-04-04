@@ -24,6 +24,7 @@ final class Config
   // From preferences
   public int layout; // Or '-1' for the system defaults
   public int layoutNum; // Or '-1' for the system defaults
+  public int programming_layout; // Or '-1' for none
   private float swipe_dist_dp;
   public float swipe_dist_px;
   public boolean vibrateEnabled;
@@ -43,6 +44,7 @@ final class Config
 
   // Dynamically set
   public boolean shouldOfferSwitchingToNextInputMethod;
+  public boolean shouldOfferSwitchingToProgramming;
   public String actionLabel; // Might be 'null'
   public int actionId; // Meaningful only when 'actionLabel' isn't 'null'
   public boolean swapEnterActionKey; // Swap the "enter" and "action" keys
@@ -61,6 +63,7 @@ final class Config
     // default values
     layout = -1;
     layoutNum = -1;
+    programming_layout = -1;
     vibrateEnabled = true;
     vibrateDuration = 20;
     longPressTimeout = 600;
@@ -77,6 +80,7 @@ final class Config
     refresh(context);
     // initialized later
     shouldOfferSwitchingToNextInputMethod = false;
+    shouldOfferSwitchingToProgramming = false;
     actionLabel = null;
     actionId = 0;
     swapEnterActionKey = false;
@@ -104,10 +108,17 @@ final class Config
     {
       keyboardHeightPercent = prefs.getInt("keyboard_height", 35);
     }
-    layout = layoutId_of_string(prefs.getString("layout", "system"));
-    layoutNum = layoutNumId_of_string(prefs.getString("layout", "system"));
-    swipe_dist_dp = Float.valueOf(prefs.getString("swipe_dist", "15"));
-    swipe_dist_px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, swipe_dist_dp, dm);
+    String layout_s = prefs.getString("layout", "system");
+    layout = layout_s.equals("system") ? -1 : layoutId_of_string(layout_s);
+    String layoutNum_s = prefs.getString("layout", "system");
+    layoutNum = layoutNum_s.equals("system") ? -1 : layoutNumId_of_string(layoutNum_s);
+    String prog_layout_s = prefs.getString("programming_layout", "none");
+    programming_layout = prog_layout_s.equals("none") ? -1 : layoutId_of_string(prog_layout_s);
+    // The swipe distance is defined relatively to the "exact physical pixels
+    // per inch of the screen", which isn't affected by the scaling settings.
+    // Take the mean of both dimensions as an approximation of the diagonal.
+    float physical_scaling = (dm.widthPixels + dm.heightPixels) / (dm.xdpi + dm.ydpi);
+    swipe_dist_px = Float.valueOf(prefs.getString("swipe_dist", "15")) * physical_scaling;;
     vibrateEnabled = prefs.getBoolean("vibrate_enabled", vibrateEnabled);
     vibrateDuration = prefs.getInt("vibrate_duration", (int)vibrateDuration);
     longPressTimeout = prefs.getInt("longpress_timeout", (int)longPressTimeout);
@@ -157,6 +168,8 @@ final class Config
         case KeyValue.EVENT_ACTION:
           return (swapEnterActionKey && action_key != null) ?
             KeyValue.getKeyByName("enter") : action_key;
+        case KeyValue.EVENT_SWITCH_PROGRAMMING:
+          return shouldOfferSwitchingToProgramming ? key : null;
         default:
           if (key.flags != 0)
           {
@@ -215,7 +228,7 @@ final class Config
       case "qwerty_sv_se": return R.xml.qwerty_sv_se;
       case "qwertz": return R.xml.qwertz;
       case "ru_jcuken": return R.xml.local_ru_jcuken;
-      case "system": default: return -1;
+      default: throw new IllegalArgumentException("layoutId_of_string: Unknown layout: " + name);
     }
   }
 
@@ -234,7 +247,7 @@ final class Config
       case "qwerty_sv_se": return R.xml.numeric;
       case "qwertz": return R.xml.numeric;
       case "ru_jcuken": return R.xml.numeric;
-      case "system": default: return -1;
+      default: throw new IllegalArgumentException("layoutNumId_of_string: Unknown layout: " + name);
     }
   }
 

@@ -195,20 +195,49 @@ class KeyboardData
       return new Key(key0, key1, key2, key3, key4, width * s, shift, edgekeys);
     }
 
-    public KeyValue getValue(int index)
+    /*
+     * See Pointers.onTouchMove() for the represented direction.
+     */
+    public KeyValue getAtDirection(int direction)
     {
-      switch (index)
+      if (edgekeys)
       {
-        case 1: return key1;
-        case 2: return key2;
-        case 3: return key3;
-        case 4: return key4;
-        default: case 0: return key0;
+        // \ 1 /
+        //  \ /
+        // 3 0 2
+        //  / \
+        // / 4 \
+        switch (direction)
+        {
+          case 2: case 3: return key1;
+          case 4: case 5: return key2;
+          case 6: case 7: return key4;
+          case 8: case 1: return key3;
+        }
       }
+      else
+      {
+        // 1 | 2
+        //   |
+        // --0--
+        //   |
+        // 3 | 4
+        switch (direction)
+        {
+          case 1: case 2: return key1;
+          case 3: case 4: return key2;
+          case 5: case 6: return key4;
+          case 7: case 8: return key3;
+        }
+      }
+      return null;
     }
   }
 
-  public static abstract interface MapKeys extends Function<KeyValue, KeyValue> { }
+  // Not using Function<KeyValue, KeyValue> to keep compatibility with Android 6.
+  public static abstract interface MapKeys {
+    public KeyValue apply(KeyValue kv);
+  }
 
   /** Parsing utils */
 

@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.util.Log;
 import android.util.LogPrinter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
@@ -63,7 +64,7 @@ public class Keyboard2 extends InputMethodService
     for (InputMethodInfo imi : imm.getEnabledInputMethodList())
       if (imi.getPackageName().equals(pkg))
         return imm.getEnabledInputMethodSubtypeList(imi, true);
-    return null;
+    return Arrays.asList();
   }
 
   private void refreshSubtypeLayout(InputMethodSubtype subtype)
@@ -304,10 +305,13 @@ public class Keyboard2 extends InputMethodService
       if (_config.programming_layout == -1)
         return;
       KeyboardData layout =
-        getLayout(_config.programming_layout).replaceKeys(key -> {
-          if (key != null && key.eventCode == KeyValue.EVENT_SWITCH_PROGRAMMING)
-            return KeyValue.getKeyByName("switch_text");
-          return key;
+        getLayout(_config.programming_layout).replaceKeys(new KeyboardData.MapKeys() {
+          public KeyValue apply(KeyValue key)
+          {
+            if (key != null && key.eventCode == KeyValue.EVENT_SWITCH_PROGRAMMING)
+              return KeyValue.getKeyByName("switch_text");
+            return key;
+          }
         });
       _keyboardView.setKeyboard(layout);
     }

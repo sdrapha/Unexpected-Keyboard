@@ -3,7 +3,7 @@
 PACKAGE_NAME = juloo.keyboard2
 
 ANDROID_PLATFORM_VERSION = android-30
-JAVA_VERSION = 1.8
+JAVA_VERSION = 1.7
 
 SRC_DIR = srcs
 RES_DIR = res
@@ -13,7 +13,7 @@ EXTRA_JARS =
 # /
 
 
-.PHONY: all release debug fork_debug installd installdfork clean
+.PHONY: all release debug fork_debug installd installdfork rebuild_special_font clean
 
 all: debug fork_debug
 
@@ -24,7 +24,7 @@ fork_debug: _build/$(PACKAGE_NAME)_fork.debug.apk
 release: _build/$(PACKAGE_NAME).apk
 
 installd: _build/$(PACKAGE_NAME).debug.apk
-	adb install "$<"
+	adb install -r "$<"
 
 installdfork: _build/$(PACKAGE_NAME)_fork.debug.apk
 	adb install "$<"
@@ -32,6 +32,9 @@ installdfork: _build/$(PACKAGE_NAME)_fork.debug.apk
 clean:
 	rm -rf _build/*.dex _build/class _build/gen _build/*.apk _build/*.unsigned-apk \
 		_build/*.idsig _build/assets
+
+rebuild_special_font:
+	cd srcs/special_font && fontforge -lang=ff -script build.pe *.svg
 
 # /-----------------------------------------------
 
@@ -111,6 +114,10 @@ _build/%.unaligned-apk: $(addprefix _build/,$(APK_EXTRA_FILES)) $(MANIFEST_FILE)
 		-I $(ANDROID_PLATFORM)/android.jar -F "$@" $(AAPT_PACKAGE_FLAGS)
 	cd $(@D) && $(ANDROID_BUILD_TOOLS)/aapt add $(@F) $(APK_EXTRA_FILES)
 
+# Copy the special font file into _build because aapt requires relative paths
+_build/assets/special_font.ttf: srcs/special_font/result.ttf
+	mkdir -p $(@D)
+	cp "$<" "$@"
 
 # R.java
 
@@ -121,16 +128,6 @@ $(R_FILE): $(RES_FILES) $(MANIFEST_FILE)
 	mkdir -p "$(@D)"
 	$(ANDROID_BUILD_TOOLS)/aapt package -f -m -S $(RES_DIR) -J $(GEN_DIR) \
 		-M $(MANIFEST_FILE) -I $(ANDROID_PLATFORM)/android.jar
-
-
-# Special font
-
-SPECIAL_FONT_GLYPHS = $(wildcard $(CURDIR)/srcs/special_font/*.svg)
-SPECIAL_FONT_SCRIPT = $(CURDIR)/srcs/special_font/build.pe
-
-_build/assets/special_font.ttf: $(SPECIAL_FONT_SCRIPT) $(SPECIAL_FONT_GLYPHS)
-	mkdir -p $(@D)
-	fontforge -lang=ff -script $(SPECIAL_FONT_SCRIPT) $(CURDIR)/$@ $(SPECIAL_FONT_GLYPHS)
 
 # Compile java classes and build classes.dex
 

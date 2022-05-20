@@ -20,7 +20,8 @@ class KeyValue
   // Behavior flags
   public static final int FLAG_LATCH = 1;
   public static final int FLAG_LOCK = (1 << 1);
-  public static final int FLAG_NOREPEAT = (1 << 2);
+  // Special keys are not repeated and don't clear latched modifiers
+  public static final int FLAG_SPECIAL = (1 << 2);
   public static final int FLAG_NOCHAR = (1 << 3);
   public static final int FLAG_PRECISE_REPEAT = (1 << 4);
 
@@ -39,6 +40,8 @@ class KeyValue
   public static final int FLAG_META = (1 << 14);
 
   // Accent flags
+  public static final int FLAG_ACCENT_DOUBLE_AIGU = (1 << 9);
+  public static final int FLAG_ACCENT_DOT_ABOVE = (1 << 15);
   public static final int FLAG_ACCENT1 = (1 << 16); // Grave
   public static final int FLAG_ACCENT2 = (1 << 17); // Aigu
   public static final int FLAG_ACCENT3 = (1 << 18); // Circonflexe
@@ -53,12 +56,14 @@ class KeyValue
   public static final int FLAG_ACCENT_ORDINAL = (1 << 28);
   public static final int FLAG_ACCENT_ARROWS = (1 << 29);
   public static final int FLAG_ACCENT_BOX = (1 << 30);
+  public static final int FLAG_ACCENT_OGONEK = (1 << 31);
 
   public static final int FLAGS_ACCENTS = FLAG_ACCENT1 | FLAG_ACCENT2 |
     FLAG_ACCENT3 | FLAG_ACCENT4 | FLAG_ACCENT5 | FLAG_ACCENT6 |
     FLAG_ACCENT_CARON | FLAG_ACCENT_MACRON | FLAG_ACCENT_SUPERSCRIPT |
-    FLAG_ACCENT_SUBSCRIPT | FLAG_ACCENT_ORDINAL | FLAG_ACCENT_ARROWS | 
-    FLAG_ACCENT_BOX | FLAG_ACCENT_RING;
+    FLAG_ACCENT_SUBSCRIPT | FLAG_ACCENT_ORDINAL | FLAG_ACCENT_ARROWS |
+    FLAG_ACCENT_BOX | FLAG_ACCENT_RING | FLAG_ACCENT_OGONEK |
+    FLAG_ACCENT_DOT_ABOVE | FLAG_ACCENT_DOUBLE_AIGU;
 
   // Language specific keys that are removed from the keyboard by default
   public static final int FLAG_LOCALIZED = (1 << 25);
@@ -101,6 +106,14 @@ class KeyValue
     flags = f;
   }
 
+  private static String stripPrefix(String s, String prefix)
+  {
+    if (s.startsWith(prefix))
+      return s.substring(prefix.length());
+    else
+      return null;
+  }
+
   public static KeyValue getKeyByName(String name)
   {
     if (name == null)
@@ -108,6 +121,12 @@ class KeyValue
     KeyValue kv = KeyValue.keys.get(name);
     if (kv != null)
       return kv;
+    String localized = stripPrefix(name, "loc ");
+    if (localized != null)
+    {
+      kv = getKeyByName(localized);
+      return kv.withFlags(kv.flags | FLAG_LOCALIZED);
+    }
     char c = (name.length() == 1) ? name.charAt(0) : CHAR_NONE;
     return new KeyValue(name, name, c, EVENT_NONE, 0);
   }
@@ -131,7 +150,7 @@ class KeyValue
   private static void addModifierKey(String name, String symbol, int extra_flags)
   {
     addKey(name, symbol, CHAR_NONE, EVENT_NONE,
-        FLAG_LATCH | FLAG_NOCHAR | FLAG_NOREPEAT | extra_flags);
+        FLAG_LATCH | FLAG_NOCHAR | FLAG_SPECIAL | extra_flags);
   }
 
   private static void addSpecialKey(String name, String symbol, int event)
@@ -141,7 +160,7 @@ class KeyValue
 
   private static void addSpecialKey(String name, String symbol, int event, int flags)
   {
-    addKey(name, symbol, CHAR_NONE, event, flags | FLAG_NOREPEAT);
+    addKey(name, symbol, CHAR_NONE, event, flags | FLAG_SPECIAL);
   }
 
   private static void addEventKey(String name, String symbol, int event)
@@ -160,15 +179,18 @@ class KeyValue
         FLAG_SHIFT | FLAG_KEY_FONT | FLAG_SMALLER_FONT);
     addModifierKey("ctrl", "Ctrl", FLAG_CTRL | FLAG_SMALLER_FONT);
     addModifierKey("alt", "Alt", FLAG_ALT | FLAG_SMALLER_FONT);
-    addModifierKey("accent_aigu", "\u0050", FLAG_ACCENT2 | FLAG_KEY_FONT | FLAG_LOCALIZED);
-    addModifierKey("accent_caron", "\u0051", FLAG_ACCENT_CARON | FLAG_KEY_FONT | FLAG_LOCALIZED);
-    addModifierKey("accent_cedille", "\u0052", FLAG_ACCENT5 | FLAG_KEY_FONT | FLAG_LOCALIZED);
-    addModifierKey("accent_circonflexe", "\u0053", FLAG_ACCENT3 | FLAG_KEY_FONT | FLAG_LOCALIZED);
-    addModifierKey("accent_grave", "\u0054", FLAG_ACCENT1 | FLAG_KEY_FONT | FLAG_LOCALIZED);
-    addModifierKey("accent_macron", "\u0055", FLAG_ACCENT_MACRON | FLAG_KEY_FONT | FLAG_LOCALIZED);
-    addModifierKey("accent_ring", "\u0056", FLAG_ACCENT_RING | FLAG_KEY_FONT | FLAG_LOCALIZED);
-    addModifierKey("accent_tilde", "\u0057", FLAG_ACCENT4 | FLAG_KEY_FONT | FLAG_LOCALIZED);
-    addModifierKey("accent_trema", "\u0058", FLAG_ACCENT6 | FLAG_KEY_FONT | FLAG_LOCALIZED);
+    addModifierKey("accent_aigu", "\u0050", FLAG_ACCENT2 | FLAG_KEY_FONT);
+    addModifierKey("accent_caron", "\u0051", FLAG_ACCENT_CARON | FLAG_KEY_FONT);
+    addModifierKey("accent_cedille", "\u0052", FLAG_ACCENT5 | FLAG_KEY_FONT);
+    addModifierKey("accent_circonflexe", "\u0053", FLAG_ACCENT3 | FLAG_KEY_FONT);
+    addModifierKey("accent_grave", "\u0054", FLAG_ACCENT1 | FLAG_KEY_FONT);
+    addModifierKey("accent_macron", "\u0055", FLAG_ACCENT_MACRON | FLAG_KEY_FONT);
+    addModifierKey("accent_ring", "\u0056", FLAG_ACCENT_RING | FLAG_KEY_FONT);
+    addModifierKey("accent_tilde", "\u0057", FLAG_ACCENT4 | FLAG_KEY_FONT);
+    addModifierKey("accent_trema", "\u0058", FLAG_ACCENT6 | FLAG_KEY_FONT);
+    addModifierKey("accent_ogonek", "\u0059", FLAG_ACCENT_OGONEK | FLAG_KEY_FONT);
+    addModifierKey("accent_dot_above", "\u005a", FLAG_ACCENT_DOT_ABOVE | FLAG_KEY_FONT);
+    addModifierKey("accent_double_aigu", "\u005b", FLAG_ACCENT_DOUBLE_AIGU | FLAG_KEY_FONT);
     addModifierKey("superscript", "Sup", FLAG_ACCENT_SUPERSCRIPT | FLAG_SMALLER_FONT);
     addModifierKey("subscript", "Sub", FLAG_ACCENT_SUBSCRIPT | FLAG_SMALLER_FONT);
     addModifierKey("ordinal", "Ord", FLAG_ACCENT_ORDINAL | FLAG_SMALLER_FONT);
@@ -230,9 +252,6 @@ class KeyValue
     addCharKey('#', KeyEvent.KEYCODE_POUND);
     addCharKey('(', KeyEvent.KEYCODE_NUMPAD_LEFT_PAREN);
     addCharKey(')', KeyEvent.KEYCODE_NUMPAD_RIGHT_PAREN);
-    addCharKey('ß', EVENT_NONE, FLAG_LOCALIZED);
-    addCharKey('€', EVENT_NONE, FLAG_LOCALIZED);
-    addCharKey('£', EVENT_NONE, FLAG_LOCALIZED);
 
     addSpecialKey("config", "\u0004", EVENT_CONFIG, FLAG_KEY_FONT | FLAG_SMALLER_FONT);
     addSpecialKey("switch_text", "ABC", EVENT_SWITCH_TEXT, FLAG_SMALLER_FONT);

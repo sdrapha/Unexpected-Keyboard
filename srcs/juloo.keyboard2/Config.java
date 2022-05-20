@@ -58,8 +58,8 @@ final class Config
     // static values
     marginTop = res.getDimension(R.dimen.margin_top);
     keyPadding = res.getDimension(R.dimen.key_padding);
-    labelTextSize = res.getFloat(R.integer.label_text_size);
-    sublabelTextSize = res.getFloat(R.integer.sublabel_text_size);
+    labelTextSize = Float.valueOf(res.getString(R.integer.label_text_size));
+    sublabelTextSize = Float.valueOf(res.getString(R.integer.sublabel_text_size));
     // default values
     layout = -1;
     layoutNum = -1;
@@ -154,34 +154,38 @@ final class Config
   public KeyboardData modify_layout(KeyboardData kw)
   {
     // Update the name to avoid caching in KeyModifier
-    KeyValue action_key = (actionLabel == null) ? null :
+    final KeyValue action_key = (actionLabel == null) ? null :
       KeyValue.getKeyByName("action").withNameAndSymbol(actionLabel, actionLabel);
-    return kw.replaceKeys(key -> {
-      if (key == null)
-        return null;
-      switch (key.eventCode)
+    return kw.replaceKeys(new KeyboardData.MapKeys() {
+      public KeyValue apply(KeyValue key)
       {
-        case KeyValue.EVENT_CHANGE_METHOD:
-          return shouldOfferSwitchingToNextInputMethod ? key : null;
-        case KeyEvent.KEYCODE_ENTER:
-          return (swapEnterActionKey && action_key != null) ? action_key : key;
-        case KeyValue.EVENT_ACTION:
-          return (swapEnterActionKey && action_key != null) ?
-            KeyValue.getKeyByName("enter") : action_key;
-        case KeyValue.EVENT_SWITCH_PROGRAMMING:
-          return shouldOfferSwitchingToProgramming ? key : null;
-        default:
-          if (key.flags != 0)
-          {
-            if ((key.flags & KeyValue.FLAG_LOCALIZED) != 0 &&
-                extra_keys != null &&
-                !extra_keys.contains(key.name))
-              return null;
-            if ((key.flags & lockable_modifiers) != 0)
-              return key.withFlags(key.flags | KeyValue.FLAG_LOCK);
-          }
-          return key;
-      }});
+        if (key == null)
+          return null;
+        switch (key.eventCode)
+        {
+          case KeyValue.EVENT_CHANGE_METHOD:
+            return shouldOfferSwitchingToNextInputMethod ? key : null;
+          case KeyEvent.KEYCODE_ENTER:
+            return (swapEnterActionKey && action_key != null) ? action_key : key;
+          case KeyValue.EVENT_ACTION:
+            return (swapEnterActionKey && action_key != null) ?
+              KeyValue.getKeyByName("enter") : action_key;
+          case KeyValue.EVENT_SWITCH_PROGRAMMING:
+            return shouldOfferSwitchingToProgramming ? key : null;
+          default:
+            if (key.flags != 0)
+            {
+              if ((key.flags & KeyValue.FLAG_LOCALIZED) != 0 &&
+                  extra_keys != null &&
+                  !extra_keys.contains(key.name))
+                return null;
+              if ((key.flags & lockable_modifiers) != 0)
+                return key.withFlags(key.flags | KeyValue.FLAG_LOCK);
+            }
+            return key;
+        }
+      }
+    });
   }
 
   private float getDipPref(DisplayMetrics dm, SharedPreferences prefs, String pref_name, float def)
@@ -228,8 +232,10 @@ final class Config
       case "qwerty2": return R.xml.qwerty2;
       case "qwerty_sv_se": return R.xml.qwerty_sv_se;
       case "qwertz": return R.xml.qwertz;
+      case "qwertz_hu": return R.xml.qwertz_hu;
       case "ru_jcuken": return R.xml.local_ru_jcuken;
-      default: throw new IllegalArgumentException("layoutId_of_string: Unknown layout: " + name);
+      case "neo2": return R.xml.neo2;
+      default: return R.xml.qwerty; // The config might store an invalid layout, don't crash
     }
   }
 
@@ -248,7 +254,8 @@ final class Config
       case "qwerty_sv_se": return R.xml.numeric;
       case "qwertz": return R.xml.numeric;
       case "ru_jcuken": return R.xml.numeric;
-      default: throw new IllegalArgumentException("layoutNumId_of_string: Unknown layout: " + name);
+      case "neo2": return R.xml.numeric;
+      default: return R.xml.numeric; // The config might store an invalid layout, don't crash
     }
   }
 

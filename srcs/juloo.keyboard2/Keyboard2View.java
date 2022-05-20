@@ -1,15 +1,19 @@
 package juloo.keyboard2;
 
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.inputmethodservice.InputMethodService;
+import android.os.Build.VERSION;
 import android.os.Vibrator;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 
 public class Keyboard2View extends View
   implements View.OnTouchListener, Pointers.IPointerEventHandler
@@ -49,8 +53,33 @@ public class Keyboard2View extends View
     _theme = new Theme(getContext(), attrs);
     _config = Config.globalConfig();
     _pointers = new Pointers(this, _config);
+    refresh_navigation_bar(context);
     setOnTouchListener(this);
     reset();
+  }
+
+  private Window getParentWindow(Context context)
+  {
+    if (context instanceof InputMethodService)
+      return ((InputMethodService)context).getWindow().getWindow();
+    if (context instanceof ContextWrapper)
+      return getParentWindow(((ContextWrapper)context).getBaseContext());
+    return null;
+  }
+
+  public void refresh_navigation_bar(Context context)
+  {
+    if (VERSION.SDK_INT < 21)
+      return;
+    // The intermediate Window is a [Dialog].
+    Window w = getParentWindow(context);
+    int uiFlags = getSystemUiVisibility();
+    if (_theme.isLightNavBar)
+      uiFlags |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+    else
+      uiFlags &= ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+    w.setNavigationBarColor(_theme.colorNavBar);
+    setSystemUiVisibility(uiFlags);
   }
 
   public void setKeyboard(KeyboardData kw)
@@ -67,33 +96,26 @@ public class Keyboard2View extends View
     invalidate();
   }
 
-  public KeyValue onPointerDown(KeyValue k)
+  public KeyValue modifyKey(KeyValue k, int flags)
   {
-    k = KeyModifier.handleFlags(k, _flags);
-    invalidate();
-    if (k != null)
-      vibrate();
-    return k;
+    return KeyModifier.handleFlags(k, flags);
   }
 
-  public KeyValue onPointerSwipe(KeyValue k)
+  public void onPointerDown(boolean isSwipe)
   {
-    k = KeyModifier.handleFlags(k, _flags);
     invalidate();
-    if (k != null)
-      vibrate();
-    return k;
+    vibrate();
   }
 
-  public void onPointerUp(KeyValue k)
+  public void onPointerUp(KeyValue k, int flags)
   {
-    _config.handler.handleKeyUp(k, _flags);
+    _config.handler.handleKeyUp(k, flags);
     invalidate();
   }
 
-  public void onPointerHold(KeyValue k)
+  public void onPointerHold(KeyValue k, int flags)
   {
-    _config.handler.handleKeyUp(k, _flags);
+    _config.handler.handleKeyUp(k, flags);
   }
 
   public void onPointerFlagsChanged()

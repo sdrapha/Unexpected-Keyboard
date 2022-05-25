@@ -230,12 +230,13 @@ final class Config
       case "qwerty_pt": return R.xml.qwerty_pt;
       case "qwerty": return R.xml.qwerty;
       case "qwerty2": return R.xml.qwerty2;
+      case "qwerty2_nbr_row": return R.xml.qwerty2_nbr_row;
       case "qwerty_sv_se": return R.xml.qwerty_sv_se;
       case "qwertz": return R.xml.qwertz;
       case "qwertz_hu": return R.xml.qwertz_hu;
       case "ru_jcuken": return R.xml.local_ru_jcuken;
       case "neo2": return R.xml.neo2;
-      default: return R.xml.qwerty; // The config might store an invalid layout, don't crash
+      default: return R.xml.qwerty2; // The config might store an invalid layout, don't crash
     }
   }
 
@@ -243,19 +244,20 @@ final class Config
   {
     switch (name)
     {
-      case "azerty": return R.xml.numeric;
-      case "bgph1": return R.xml.numeric;
-      case "dvorak": return R.xml.numeric;
-      case "qwerty_es": return R.xml.numeric;
-      case "qwerty_lv": return R.xml.numeric;
-      case "qwerty_pt": return R.xml.numeric;
+      // case "azerty": return R.xml.numeric;
+      // case "bgph1": return R.xml.numeric;
+      // case "dvorak": return R.xml.numeric;
+      // case "qwerty_es": return R.xml.numeric;
+      // case "qwerty_lv": return R.xml.numeric;
+      // case "qwerty_pt": return R.xml.numeric;
       case "qwerty": return R.xml.numeric;
       case "qwerty2": return R.xml.numeric2;
-      case "qwerty_sv_se": return R.xml.numeric;
-      case "qwertz": return R.xml.numeric;
-      case "ru_jcuken": return R.xml.numeric;
-      case "neo2": return R.xml.numeric;
-      default: return R.xml.numeric; // The config might store an invalid layout, don't crash
+      case "qwerty2_nbr_row": return R.xml.numeric2;
+      // case "qwerty_sv_se": return R.xml.numeric;
+      // case "qwertz": return R.xml.numeric;
+      // case "ru_jcuken": return R.xml.numeric;
+      // case "neo2": return R.xml.numeric;
+      default: return R.xml.numeric2; // The config might store an invalid layout, don't crash
     }
   }
 

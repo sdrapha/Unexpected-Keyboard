@@ -5,6 +5,7 @@
     <item>azerty</item>
     <item>qwerty</item>
     <item>qwerty2</item>
+    <item>qwerty2_nbr_row</item>
     <item>qwerty_pt</item>
     <item>qwerty_es</item>
     <item>qwerty_ko</item>
@@ -21,7 +22,8 @@
     <item>@string/pref_layout_e_system</item>
     <item>AZERTY</item>
     <item>QWERTY</item>
-    <item>QWERTY2 (Alternative)</item>
+    <item>QWERTY2 </item>
+    <item>QWERTY2 + Number Row</item>
     <item>QWERTY (Brasileiro)</item>
     <item>QWERTY (Español)</item>
     <item>QWERTY (Korean)</item>
@@ -38,12 +40,16 @@
     <item>none</item>
     <item>qwerty</item>
     <item>qwerty2</item>
+    <item>qwerty2_nbr_row</item>
+    <item>qwerty_pt</item>
     <item>dvorak</item>
   </string-array>
   <string-array name="pref_programming_layout_entries">
     <item>@string/pref_programming_layout_none</item>
     <item>QWERTY</item>
-    <item>QWERTY2 (Alternative)</item>
+    <item>QWERTY2 </item>
+    <item>QWERTY2 + Number Row</item>
+    <item>QWERTY (Brasileiro)</item>
     <item>Dvorak</item>
   </string-array>
   <string-array name="pref_accents_entries">

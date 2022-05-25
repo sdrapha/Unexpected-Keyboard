@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <keyboard bottom_row="false">
-  <row height="1.0">
-    <key key0="q" key2="1" key4="`"/>
-    <key key0="w" key2="2" key3="!" key4="\@"/>
-    <key key0="e" key2="3" key3="\#" key4="loc €"/>
-    <key key0="r" key2="4" key3="$" key4="loc £"/>
-    <key key0="t" key2="5" key3="%" key4="^"/>
-    <key key0="y" key2="6" key3="&amp;" key4="*"/>
-    <key key0="u" key2="7" key3="-" key4="="/>
-    <key key0="i" key2="8" key3="_" key4="+"/>
-    <key key0="o" key2="9" key3="\\"/>
-    <key key0="p" key2="0" key3="|"/>
+  <row height="0.6">
+    <key key0="1"/>
+    <key key0="2"/>
+    <key key0="3"/>
+    <key key0="4"/>
+    <key key0="5"/>
+    <key key0="6"/>
+    <key key0="7"/>
+    <key key0="8"/>
+    <key key0="9"/>
+    <key key0="0"/>
   </row>
-  <row height="1.0">
-    <key shift="0.5" key0="a" key1="~" key2="loc accent_tilde" key4="tab" />
+  <row height="0.9">
+    <key key0="q" key4="`" key2="~" />
+    <key key0="w" key3="!" key2="\@"/>
+    <key key0="e" key2="\#" key3="loc €"/>
+    <key key0="r" key2="$" key3="loc £"/>
+    <key key0="t" key2="%" />
+    <key key0="y" key2="^"/>
+    <key key0="u" key2="&amp;"/>
+    <key key0="i" key2="*"/>
+    <key key0="o" key1="-" key3="_" key4="=" key2="+"/>
+    <key key0="p" key3="\\" key1="|"/>
+  </row>
+  <row height="0.9">
+    <key shift="0.5" key0="a" key2="loc accent_tilde" key4="tab" />
     <key key0="s" key1="loc accent_ring" key2="esc" key3="loc ß" key4="loc accent_ogonek"/>
     <key key0="d" key1="loc accent_grave" key2="f11_placeholder"/>
     <key key0="f" key1="loc accent_dot_above" key2="f12_placeholder"/>
@@ -23,7 +35,7 @@
     <key key0="k" key1="loc accent_macron" key2="loc accent_aigu" key3=";" key4=":"/>
     <key key0="l" key1="&quot;" key3="'"/>
   </row>
-  <row height="1.0">
+  <row height="0.9">
     <key width="1.5" key0="shift"/>
     <key key0="z"/>
     <key key0="x"/>
@@ -34,7 +46,7 @@
     <key key0="m" key2="\?" key3="/" />
     <key width="1.5" key0="backspace" key2="delete" key4="delete"/>
   </row>
-  <row height="0.95">
+  <row height="0.9">
     <key width="1.7" key0="ctrl" key2="meta" key4="alt"/>
     <key width="1.2" key0="fn" key1="switch_programming" key2="change_method" key3="switch_emoji" key4="config"/>
     <key width="3.8" key0="space" key1="switch_numeric" edgekeys="true"/>

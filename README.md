@@ -12,6 +12,9 @@ This fork currently has the following extra changes:
 - Added an Extra variant APK builder to the makefile, called fork-debug, this extra apk has a different namespace, so it can be installed in parallel to the official APK, very useful for testing, or for building from source a modified version with personal preferences, and still be able to load the official APK at same time.
 - Add the capability for the Github CI action to utilize the `DEBUG_KEYSTORE` secret, check the [Contributing](CONTRIBUTING.md) for instructions.
 - Added Box and Arrows input system on the numeric pad
+- Add QWERTY2 + Number row layout
+- Rearrange many keys after extensive usage study
+- (All screenshots here not currently up to date)
 
 (QWERTY2 layout screenshots at end of this page)
 

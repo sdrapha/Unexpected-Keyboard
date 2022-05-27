@@ -6,7 +6,8 @@
     <item>qwerty</item>
     <item>qwerty2</item>
     <item>qwerty2_nbr_row</item>
-    <item>qwerty_pt</item>
+    <item>qwerty_pt_inter</item>
+    <item>qwerty_pt_abnt2</item>
     <item>qwerty_es</item>
     <item>qwerty_ko</item>
     <item>qwerty_lv</item>
@@ -24,7 +25,8 @@
     <item>QWERTY</item>
     <item>QWERTY2 </item>
     <item>QWERTY2 + Number Row</item>
-    <item>QWERTY (Brasileiro)</item>
+    <item>QWERTY (Brasil US-INT)</item>
+    <item>QWERTY (Brasil ABNT2)</item>
     <item>QWERTY (Español)</item>
     <item>QWERTY (Korean)</item>
     <item>QWERTY (Latvian)</item>
@@ -41,7 +43,8 @@
     <item>qwerty</item>
     <item>qwerty2</item>
     <item>qwerty2_nbr_row</item>
-    <item>qwerty_pt</item>
+    <item>qwerty_pt_inter</item>
+    <item>qwerty_pt_abnt2</item>
     <item>dvorak</item>
   </string-array>
   <string-array name="pref_programming_layout_entries">
@@ -49,7 +52,8 @@
     <item>QWERTY</item>
     <item>QWERTY2 </item>
     <item>QWERTY2 + Number Row</item>
-    <item>QWERTY (Brasileiro)</item>
+    <item>QWERTY (Brasil US-INT)</item>
+    <item>QWERTY (Brasil ABNT2)</item>
     <item>Dvorak</item>
   </string-array>
   <string-array name="pref_accents_entries">

@@ -1,24 +1,25 @@
 # Unexpected Keyboard
 ###  - Personal fork for testing and adding personal preferences -  
-Readme.md Updated 2022-03-28
+Readme.md Updated 2022-july
 
-Awesome work on the original [upstream](https://github.com/Julow/Unexpected-Keyboard) repo ❤
+Awesome work on the original [upstream](https://github.com/Julow/Unexpected-Keyboard) repo ❤thank you!
 
 This fork currently has the following extra changes:
 
+- Add QWERTY2+NumberRow layout
 - Add QWERTY2 Layout, this layout is an alternative to the original QWERTY, it is a programming layout, (not a localization), the main goal on this layout was first to move the corners extrakeys away from phone's edge (good for bulky phone case), after that some other keys rearrangements were also done to improve the layout overall
 - The QWERTY2 layout has adjusted key proportions on the bottom row, giving more importance to the navigation arrows key
 - To implement the QWERTY2 Layout, there is some added logic that enable each individual layout to be paired with a specif numeric layout, so it's possible to have different numeric layouts.
 - Added an Extra variant APK builder to the makefile, called fork-debug, this extra apk has a different namespace, so it can be installed in parallel to the official APK, very useful for testing, or for building from source a modified version with personal preferences, and still be able to load the official APK at same time.
 - Add the capability for the Github CI action to utilize the `DEBUG_KEYSTORE` secret, check the [Contributing](CONTRIBUTING.md) for instructions.
-- Added Box and Arrows input system on the numeric pad
 - Add QWERTY2 + Number row layout
 - Rearrange many keys after extensive usage study
-- (All screenshots here not currently up to date)
+- Portuguese layout split in qwerty-international style and abnt2 layout style, since both styles are commonly used, and it is a matter of personal preference.
+- (screenshots here are hit and miss on how much up to date they are)
 
-(QWERTY2 layout screenshots at end of this page)
+Debug APKs on the actions tab (must be logged to github to download) [link](https://github.com/sdrapha/Unexpected-Keyboard/actions?query=branch%3Aall-branches-merged-in-one)
 
-Debug APKs on the actions tab [link](https://github.com/sdrapha/Unexpected-Keyboard/actions?query=branch%3Aall-branches-merged-in-one)
+Direct link to latest debug apk without having to be logged in to github -> [link](https://nightly.link/sdrapha/Unexpected-Keyboard/workflows/make-apk/all-branches-merged-in-one/debug%20apk.zip)
 
 -----
 ## Unexpected Keyboard
@@ -64,6 +65,12 @@ For instructions on building the application, see
 ## Screenshots
 
 <img src=metadata/android/en-US/images/featureGraphic.png
+alt="Unexpected Keyboard Image"
+style="width: 400px;
+       margin-left: 6px;
+       margin-right: 6px;">
+
+<img src=metadata/android/en-US/images/featureGraphic1.png
 alt="Unexpected Keyboard Image"
 style="width: 400px;
        margin-left: 6px;

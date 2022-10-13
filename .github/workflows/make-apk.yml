@@ -39,7 +39,7 @@ jobs:
       run: |
         artifact="${{github.repository_owner}} ${{github.ref_name}}"
         artifact="${artifact//\//-}" # replace slashes
-        echo artifact=${artifact} >> $GITHUB_ENV
+        echo "artifact=${artifact}" >> $GITHUB_ENV
     - name: Save debug apk
       uses: actions/upload-artifact@v3
       with:

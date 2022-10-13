@@ -35,8 +35,13 @@ jobs:
         fi
     - name: Build
       run: make
+    - name: Artifact naming
+      run: |
+        artifact=${{github.repository_owner}} ${{github.ref_name}}
+        artifact=${artifact//\//-} # replace slashes
+        echo artifact=${artifact} >> $GITHUB_ENV
     - name: Save debug apk
       uses: actions/upload-artifact@v2
       with:
-        name: "${{github.repository_owner}} ${{github.ref_name}//\//-} debug_apk"
+        name: "${{env.artifact}} debug_apk"
         path: _build/*.apk

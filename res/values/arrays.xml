@@ -6,6 +6,7 @@
     <item>qwerty</item>
     <item>qwerty2</item>
     <item>qwerty2_nbr_row</item>
+    <item>qwerty3_nbr_row</item>
     <item>qwerty_pt_inter</item>
     <item>qwerty_pt_abnt2</item>
     <item>qwerty_es</item>
@@ -25,6 +26,7 @@
     <item>QWERTY</item>
     <item>QWERTY2 </item>
     <item>QWERTY2 + Number Row</item>
+    <item>QWERTY3 + Number Row + Split arrows</item>
     <item>QWERTY (Brasil US-INT)</item>
     <item>QWERTY (Brasil ABNT2)</item>
     <item>QWERTY (Español)</item>
@@ -43,6 +45,7 @@
     <item>qwerty</item>
     <item>qwerty2</item>
     <item>qwerty2_nbr_row</item>
+    <item>qwerty3_nbr_row</item>
     <item>qwerty_pt_inter</item>
     <item>qwerty_pt_abnt2</item>
     <item>dvorak</item>
@@ -52,6 +55,7 @@
     <item>QWERTY</item>
     <item>QWERTY2 </item>
     <item>QWERTY2 + Number Row</item>
+    <item>QWERTY3 + Number Row + Split arrows</item>
     <item>QWERTY (Brasil US-INT)</item>
     <item>QWERTY (Brasil ABNT2)</item>
     <item>Dvorak</item>

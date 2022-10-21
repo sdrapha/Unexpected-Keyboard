@@ -1,12 +1,23 @@
 # Unexpected Keyboard
 ###  - Personal fork for testing and adding personal preferences -  
-Readme.md Updated 2022-july
+Readme.md Updated 2022-october
 
 Awesome work on the original [upstream](https://github.com/Julow/Unexpected-Keyboard) repo ❤thank you!
 
 This fork currently has the following extra changes:
 
-- Add QWERTY2+NumberRow layout
+- Add 'QWERTY3 + NumberRow layout + Split arrows'
+><img src=metadata/android/en-US/images/featureGraphic5.png
+alt="Unexpected Keyboard Image"
+style="width: 400px;
+       margin-left: 6px;
+       margin-right: 6px;">
+- Add 'QWERTY2 + NumberRow layout'
+><img src=metadata/android/en-US/images/featureGraphic.png
+alt="Unexpected Keyboard Image"
+style="width: 400px;
+       margin-left: 6px;
+       margin-right: 6px;">
 - Add QWERTY2 Layout, this layout is an alternative to the original QWERTY, it is a programming layout, (not a localization), the main goal on this layout was first to move the corners extrakeys away from phone's edge (good for bulky phone case), after that some other keys rearrangements were also done to improve the layout overall
 - The QWERTY2 layout has adjusted key proportions on the bottom row, giving more importance to the navigation arrows key
 - To implement the QWERTY2 Layout, there is some added logic that enable each individual layout to be paired with a specif numeric layout, so it's possible to have different numeric layouts.
@@ -17,9 +28,9 @@ This fork currently has the following extra changes:
 - Portuguese layout split in qwerty-international style and abnt2 layout style, since both styles are commonly used, and it is a matter of personal preference.
 - (screenshots here are hit and miss on how much up to date they are)
 
-Debug APKs on the actions tab (must be logged to github to download) [link](https://github.com/sdrapha/Unexpected-Keyboard/actions?query=branch%3Aall-branches-merged-in-one)
+### -> Debug APKs on the actions tab (must be logged to github to download) -> [link](https://github.com/sdrapha/Unexpected-Keyboard/actions?query=branch%3Aall-branches-merged-in-one)
 
-Direct link to latest debug apk without having to be logged in to github -> [link](https://nightly.link/sdrapha/Unexpected-Keyboard/workflows/make-apk/all-branches-merged-in-one/debug%20apk.zip)
+### -> Direct link to latest debug apk without having to be logged in to github -> [link](https://nightly.link/sdrapha/Unexpected-Keyboard/workflows/make-apk/all-branches-merged-in-one/debug%20apk.zip)
 
 -----
 ## Unexpected Keyboard
@@ -27,9 +38,8 @@ A lightweight virtual keyboard for developers.
 
 ![Unexpected Keyboard](metadata/android/en-US/images/featureGraphic.png)
 
-| <img src="/metadata/android/en-US/images/phoneScreenshots/1.png" alt="Screenshot-1" /> | <img src="/metadata/android/en-US/images/phoneScreenshots/2.png" alt="Screenshot-2"/> | <img src="/metadata/android/en-US/images/phoneScreenshots/3.png" alt="Screenshot-3"/> |
+| <img src="metadata/android/en-US/images/phoneScreenshots/1.png" alt="Screenshot-1" /> | <img src="metadata/android/en-US/images/phoneScreenshots/2.png" alt="Screenshot-2"/> | <img src="metadata/android/en-US/images/phoneScreenshots/3.png" alt="Screenshot-3"/> |
 | --- | --- | --- |
-| <img src="/metadata/android/en-US/images/phoneScreenshots/4.png" alt="Screenshot-4" /> | <img src="/metadata/android/en-US/images/phoneScreenshots/5.png" alt="Screenshot-5" /> | <img src="/metadata/android/en-US/images/phoneScreenshots/6.png" alt="Screenshot-6" /> |
 
 This app is a virtual keyboard for Android. The main features are easy typing of every ASCII character using the swipe gesture, dead keys for accents and modifier keys and the presence of special keys (tab, esc, arrows, etc..).
 
@@ -50,12 +60,6 @@ Highlight of some of the features:
 Like any other virtual keyboards, it must be enabled in the system settings. Open the System Settings and go to:
 System > Languages & input > On-screen keyboard > Manage on-screen keyboards.
 
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-     alt="Get it on F-Droid"
-     height="80">](https://f-droid.org/packages/juloo.keyboard2/)
-[<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png"
-     alt="Get it on Google Play"
-     height="80">](https://play.google.com/store/apps/details?id=juloo.keyboard2)
 
 ## Contributing
 
@@ -64,7 +68,7 @@ For instructions on building the application, see
 
 ## Screenshots
 
-<img src=metadata/android/en-US/images/featureGraphic.png
+<img src=metadata/android/en-US/images/featureGraphic5.png
 alt="Unexpected Keyboard Image"
 style="width: 400px;
        margin-left: 6px;

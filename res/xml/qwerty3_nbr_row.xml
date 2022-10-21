@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<keyboard bottom_row="false">
+  <row height="0.6">
+    <key key0="1"/>
+    <key key0="2"/>
+    <key key0="3"/>
+    <key key0="4"/>
+    <key key0="5"/>
+    <key key0="6"/>
+    <key key0="7"/>
+    <key key0="8"/>
+    <key key0="9"/>
+    <key key0="0"/>
+  </row>
+  <row height="0.9">
+    <key key0="q" key4="`" key2="~" />
+    <key key0="w" key3="!" key2="\@"/>
+    <key key0="e" key2="\#" key3="loc €"/>
+    <key key0="r" key2="$" key3="loc £"/>
+    <key key0="t" key2="%" />
+    <key key0="y" key2="^"/>
+    <key key0="u" key2="&amp;"/>
+    <key key0="i" key2="*"/>
+    <key key0="o" key1="-" key3="_" key4="=" key2="+"/>
+    <key key0="p" key3="\\" key1="|"/>
+  </row>
+  <row height="0.9">
+    <key shift="0.5" key0="a" key2="loc accent_tilde" key4="tab" />
+    <key key0="s" key1="loc accent_ring" key2="esc" key3="loc ß" key4="loc accent_ogonek"/>
+    <key key0="d" key1="loc accent_grave" key2="f11_placeholder"/>
+    <key key0="f" key1="loc accent_dot_above" key2="f12_placeholder"/>
+    <key key0="g" key1="loc accent_caron" key3="(" key4=")"/>
+    <key key0="h" key1="loc accent_circonflexe" key4="}" key3="{"/>
+    <key key0="j" key1="loc accent_trema" key2="loc accent_double_aigu" key3="[" key4="]"/>
+    <key key0="k" key1="loc accent_macron" key2="loc accent_aigu" key3=";" key4=":"/>
+    <key key0="l" key1="&quot;" key3="'"/>
+  </row>
+  <row height="0.9">
+    <key width="1.5" key0="shift"/>
+    <key key0="z"/>
+    <key key0="x"/>
+    <key key0="c" key2="loc ª" key3="loc ç" key4="loc accent_cedille"/>
+    <key key0="v" key2="loc º"/>
+    <key key0="b" key2="&lt;" key3=","/>
+    <key key0="n" key2="&gt;" key3="."/>
+    <key key0="m" key2="\?" key3="/" />
+    <key width="1.5" key0="backspace" key2="delete" key4="delete"/>
+  </row>
+  <row height="0.9">
+    <key width="1.5" key0="ctrl" key2="meta" key4="alt"/>
+    <key width="1.0" key0="fn" key1="switch_programming" key2="change_method" key3="switch_emoji" key4="config"/>
+    <key width="3.333" key0="space" key1="switch_numeric" edgekeys="true"/>
+    <key width="1.333" key0="left" key1="up" key3="home" key4="down" edgekeys="true"/>
+    <key width="1.333" key0="right" key1="shift" key2="end" key4="ctrl" edgekeys="true"/>
+    <key width="1.5" key0="enter" key1="action" key3="fn"/>
+  </row>
+</keyboard>
+

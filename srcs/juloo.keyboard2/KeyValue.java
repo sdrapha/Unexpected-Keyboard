@@ -175,8 +175,11 @@ class KeyValue
 
   static
   {
-    addModifierKey("shift", "\n", // Can't write u000A because Java is stupid
-        FLAG_SHIFT | FLAG_KEY_FONT | FLAG_SMALLER_FONT);
+    // addModifierKey("shift", "\n", // Can't write u000A because Java is stupid
+    //     FLAG_SHIFT | FLAG_KEY_FONT | FLAG_SMALLER_FONT);
+    // replace Shift arrow symbol for a literal 'shift' caption because of the 
+    //     proximity to the navigation arrows on querty3 layout
+    addModifierKey("shift", "Shift", FLAG_SHIFT | FLAG_SMALLER_FONT);
     addModifierKey("ctrl", "Ctrl", FLAG_CTRL | FLAG_SMALLER_FONT);
     addModifierKey("alt", "Alt", FLAG_ALT | FLAG_SMALLER_FONT);
     addModifierKey("accent_aigu", "\u0050", FLAG_ACCENT2 | FLAG_KEY_FONT);

@@ -30,7 +30,7 @@ style="width: 400px;
 
 ### -> Debug APKs on the actions tab (must be logged to github to download) -> [link](https://github.com/sdrapha/Unexpected-Keyboard/actions?query=branch%3Aall-branches-merged-in-one)
 
-### -> Direct link to latest debug apk without having to be logged in to github -> [link](https://nightly.link/sdrapha/Unexpected-Keyboard/workflows/make-apk/all-branches-merged-in-one/debug%20apk.zip)
+### -> Direct link to latest debug apk without having to be logged in to github -> [link](https://nightly.link/sdrapha/Unexpected-Keyboard/workflows/make-apk/all-branches-merged-in-one/sdrapha%20all-branches-merged-in-one%20debug_apk.zip)
 
 -----
 ## Unexpected Keyboard

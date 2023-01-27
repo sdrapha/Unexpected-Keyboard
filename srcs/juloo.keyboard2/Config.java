@@ -233,6 +233,7 @@ final class Config
       case "qwerty2": return R.xml.qwerty2;
       case "qwerty2_nbr_row": return R.xml.qwerty2_nbr_row;
       case "qwerty3_nbr_row": return R.xml.qwerty3_nbr_row;
+      case "qwerty3_nbr_row_shift": return R.xml.qwerty3_nbr_row_shift;
       case "qwerty_sv_se": return R.xml.qwerty_sv_se;
       case "qwertz": return R.xml.qwertz;
       case "qwertz_hu": return R.xml.qwertz_hu;
@@ -256,6 +257,7 @@ final class Config
       case "qwerty2": return R.xml.numeric2;
       case "qwerty2_nbr_row": return R.xml.numeric2;
       case "qwerty3_nbr_row": return R.xml.numeric2;
+      case "qwerty3_nbr_row_shift": return R.xml.numeric2_shift;
       // case "qwerty_sv_se": return R.xml.numeric;
       // case "qwertz": return R.xml.numeric;
       // case "ru_jcuken": return R.xml.numeric;
